@@ -262,31 +262,47 @@ LindUF.targettargettarget:SetWidth(140)
 LindUF.targettargettarget.noEventUpdate = true
 LindUF.targettargettarget:init()
 
+-- local y = -300
+-- local x = -450
+-- for i = 1, 40, 1 do
+--   LindUF["raid"..i] = MakeLind("raid"..i)
+--   LindUF["raid"..i]:SetWidth(50)
+--   LindUF["raid"..i]:SetHeight(20)
+--   LindUF["raid"..i].LB.Name:SetFont(font, 8, "OUTLINE")
+--   LindUF["raid"..i].LB.Leben = nil
+--   LindUF["raid"..i].EB = nil
+--
+--   if i % 5 == 0 then
+--     y = y - 20
+--     x = x - 250
+--   end
+--   LindUF["raid"..i]:SetPoint("Center", x + i * 50, y)
+--
+--   LindUF["raid"..i]:init()
+-- end
+
 local y = -300
-local x = -450
-for i = 1, 40, 1 do
-  LindUF["raid"..i] = MakeLind("raid"..i)
-  LindUF["raid"..i]:SetWidth(50)
-  LindUF["raid"..i]:SetHeight(20)
-  LindUF["raid"..i].LB.Name:SetFont(font, 8, "OUTLINE")
-  LindUF["raid"..i].LB.Leben = nil
-  LindUF["raid"..i].EB = nil
+local x = -450 - 75
+for i = 1, 4, 1 do
+  LindUF["party"..i] = MakeLind("party"..i)
+  LindUF["party"..i]:SetWidth(70)
+  LindUF["party"..i]:SetHeight(40)
+  LindUF["party"..i].LB.Leben = nil
+  LindUF["party"..i].EB = nil
 
-  if i % 5 == 0 then
-    y = y - 20
-    x = x - 250
-  end
-  LindUF["raid"..i]:SetPoint("Center", x + i * 50, y)
 
-  LindUF["raid"..i]:init()
+  LindUF["party"..i]:SetPoint("Center", x + i * 75, y)
+  LindUF["party"..i].LB:SetHeight(LindUF["party"..i]:GetHeight())
+
+  LindUF["party"..i]:init()
 end
 
 local y = 100
 local x = -100
 for i = 1, 5, 1 do
   LindUF["boss"..i] = MakeLind("boss"..i)
-  LindUF["boss"..i]:SetWidth(50)
-  LindUF["boss"..i]:SetHeight(20)
+  LindUF["boss"..i]:SetWidth(70)
+  LindUF["boss"..i]:SetHeight(40)
 
   LindUF["boss"..i].LB.Name:SetFont(font, 8, "OUTLINE")
 
