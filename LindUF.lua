@@ -3,22 +3,15 @@ PlayerFrame:Hide();
 TargetFrame:SetScript("OnEvent", nil);
 TargetFrame:Hide();
 
-
--- Ein OnEvent für Alle Frames
--- UNIT_HEALTH und so geben die Unit mit an
--- dort dann ein aufruf wie UF[unit].LB:Update()
-
--- getan. läuft leider nicht für targettarget und targettargettarget
-
 LindUF = {}
 
-EventHandler = CreateFrame ("Frame", "EventHandler")
+local EventHandler = CreateFrame ("Frame", "EventHandler")
 EventHandler:RegisterEvent("UNIT_HEALTH_FREQUENT")
 EventHandler:SetScript("OnEvent", function(self, event, unit, ...)
-  if LindUF[unit] then
-    LindUF[unit].LB:Update()
-  end
-end)
+    if LindUF[unit] then
+      LindUF[unit].LB:Update()
+    end
+  end)
 
 local font = "Fonts\\ARIALN.TTF"
 
@@ -113,9 +106,9 @@ local function MakeLind(aUnit)
 
   thisLind:SetScript("OnUpdate", function(self, event, ...)
 
-    if self.noEventUpdate then
-      self.LB:Update()
-    end
+      if self.noEventUpdate then
+        self.LB:Update()
+      end
       local name = select(1,UnitName(self.unit))
 
       if name ~= self.name then
@@ -191,13 +184,13 @@ local function MakeLind(aUnit)
       local maxHealth = UnitHealthMax(self.unit)
       local percent = 100*health/maxHealth
       if self.Leben then
-				if health > 9999999 then
-					self.Leben:SetText(string.format("%.0f M", (health / 1000000)))
-				elseif health > 9999 then
-					self.Leben:SetText(string.format("%.0f K", (health / 1000)))
-				else
-        	self.Leben:SetText(health)
-				end
+        if health > 9999999 then
+          self.Leben:SetText(string.format("%.0f M", (health / 1000000)))
+        elseif health > 9999 then
+          self.Leben:SetText(string.format("%.0f K", (health / 1000)))
+        else
+          self.Leben:SetText(health)
+        end
       end
       self:SetValue(100-percent)
     end
@@ -269,8 +262,6 @@ LindUF.targettargettarget:SetWidth(140)
 LindUF.targettargettarget.noEventUpdate = true
 LindUF.targettargettarget:init()
 
-
-
 local y = -300
 local x = -450
 for i = 1, 40, 1 do
@@ -289,7 +280,6 @@ for i = 1, 40, 1 do
 
   LindUF["raid"..i]:init()
 end
-
 
 local y = 100
 local x = -100
