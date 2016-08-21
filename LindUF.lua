@@ -118,7 +118,9 @@ local function MakeLind(aUnit)
           if sec == 301 then
             self.PvpTimer:SetText("pvp")
           else
-            self.PvpTimer:SetText(math.floor(sec/60)..":"..math.floor(sec%60))
+            local min = math.floor(sec/60)
+            local sec = math.floor(sec%60)
+            self.PvpTimer:SetText(min..":"..(sec > 9 and sec or "0"..sec))
           end
         else
           self.PvpTimer:SetText(nil)
