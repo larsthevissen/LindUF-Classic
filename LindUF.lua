@@ -55,13 +55,15 @@ local function MakeLind(aUnit)
   thisLind.LB = CreateFrame("StatusBar", "lind"..aUnit.."health", thisLind)
   thisLind.EB = CreateFrame("StatusBar", "lind"..aUnit.."power", thisLind)
 
-  thisLind.LB:SetBackdrop( {
+
+
+  thisLind:SetBackdrop( {
       bgFile = "Interface\\AddOns\\LindUF\\LindBar.tga",
-      edgeFile = nil,
-      tile = false, tileSize = 0, edgeSize = 0,
+      edgeFile = "Interface\\AddOns\\LindUF\\LindBorder.tga",
+      tile = false, tileSize = 0, edgeSize = 8,
       insets = { left = 0, right = 0, top = 0, bottom = 0 }
     })
-  thisLind.LB:SetBackdropColor(0,0,0,0.4);
+  thisLind:SetBackdropColor(0,0,0,0);
   thisLind.LB:SetReverseFill(true)
 
   thisLind.EB:SetBackdrop( {
@@ -108,7 +110,7 @@ local function MakeLind(aUnit)
   thisLind.PvpTimer:SetFont(font, 14, "OUTLINE")
   thisLind.PvpTimer:SetText(UnitName(aUnit))
   thisLind.PvpTimer:SetTextColor(1, 1, 1)
-  thisLind.PvpTimer:SetPoint("LEFT", 0, 30)
+  thisLind.PvpTimer:SetPoint("RIGHT", 30, -50)
 
   thisLind:SetScript("OnUpdate", function(self, event, ...)
       if self.unit == "player" then
@@ -137,23 +139,23 @@ local function MakeLind(aUnit)
       end
     end)
   thisLind.init = function(self)
-    self.LB:SetWidth(self:GetWidth())
-    self.LB:SetHeight(self:GetHeight()/4*3)
+    self.LB:SetWidth((self:GetWidth()) - 4)
+    self.LB:SetHeight((self:GetHeight()/4*3) - 4)
     self.LB:SetMinMaxValues(0, 100)
     self.LB:SetValue(100)
 
     self.LB:SetStatusBarTexture("Interface\\AddOns\\LindUF\\LindBar.tga")
     self.LB:SetStatusBarColor(1.0, 0.2, 0.2, 0.8)
-    self.LB:SetPoint("TOP", self, 0, 0)
+    self.LB:SetPoint("TOP", self, 0, -2)
 
-    self.Absorb:SetWidth(self:GetWidth())
-    self.Absorb:SetHeight(self:GetHeight()/4*3)
+    self.Absorb:SetWidth(self:GetWidth() - 4)
+    self.Absorb:SetHeight(self:GetHeight()/4*3 - 4)
     self.Absorb:SetMinMaxValues(0, 100)
     self.Absorb:SetValue(0)
 
     self.Absorb:SetStatusBarTexture("Interface\\AddOns\\LindUF\\LindBar.tga")
     self.Absorb:SetStatusBarColor(0.7, 0.2, 1, 1)
-    self.Absorb:SetPoint("TOP", self, 0, 0)
+    self.Absorb:SetPoint("TOP", self, 0, -2)
     self.Absorb.Update = function(self)
       local totalAbsorbs = UnitGetTotalAbsorbs(self.unit)
       local maxHealth = UnitHealthMax(self.unit)
@@ -170,14 +172,14 @@ local function MakeLind(aUnit)
         self:Update()
       end)
 
-    self.Predict:SetWidth(self:GetWidth())
-    self.Predict:SetHeight(self:GetHeight()/4*3)
+    self.Predict:SetWidth(self:GetWidth() - 4)
+    self.Predict:SetHeight(self:GetHeight()/4*3 - 4)
     self.Predict:SetMinMaxValues(0, 100)
     self.Predict:SetValue(0)
 
     self.Predict:SetStatusBarTexture("Interface\\AddOns\\LindUF\\LindBar.tga")
     self.Predict:SetStatusBarColor(0.1, 1.0, 0.1, 1.0)
-    self.Predict:SetPoint("TOP", self, 0, 0)
+    self.Predict:SetPoint("TOP", self, 0, -2)
 
     self.Predict.unit = self.unit
     self.Predict.parent = self
@@ -188,7 +190,7 @@ local function MakeLind(aUnit)
         local percent = 0
         if(heal) then
           percent = 100*health/maxHealth
-          self:SetPoint("TOP",self.parent, percent*self:GetWidth()/100, 0)
+          self:SetPoint("TOP",self.parent, (percent*self:GetWidth()/100), -2)
           percent = 100*heal/maxHealth
           if percent > 100 then
             percent = 100
@@ -219,12 +221,12 @@ local function MakeLind(aUnit)
       end)
 
     if self.EB then
-      self.EB:SetWidth(self:GetWidth())
+      self.EB:SetWidth(self:GetWidth()-4)
       self.EB:SetHeight(self:GetHeight()/4)
       self.EB:SetMinMaxValues(0, 100)
       self.EB:SetValue(100)
       self.EB:SetStatusBarTexture("Interface\\AddOns\\LindUF\\LindBar.tga")
-      self.EB:SetPoint("BOTTOM", self, 0, 0)
+      self.EB:SetPoint("TOP", self, 0, -self.LB:GetHeight() - 2)
       self.EB:RegisterEvent("UNIT_POWER_FREQUENT")
       self.EB.unit = self.unit
       self.EB.Update = function(self)
@@ -283,39 +285,38 @@ LindUF.targettargettarget.noEventUpdate = true
 LindUF.targettargettarget:init()
 
 -- local y = -300
--- local x = -450
+-- local x = -199
 -- for i = 1, 40, 1 do
--- LindUF["raid"..i] = MakeLind("raid"..i)
--- LindUF["raid"..i]:SetWidth(50)
--- LindUF["raid"..i]:SetHeight(20)
--- LindUF["raid"..i].LB.Name:SetFont(font, 8, "OUTLINE")
--- LindUF["raid"..i].LB.Leben = nil
--- LindUF["raid"..i].EB = nil
+--   LindUF["test"..i] = MakeLind("player")
+--   LindUF["test"..i]:SetWidth(48)
+--   LindUF["test"..i]:SetHeight(30)
+--   LindUF["test"..i].LB.Leben = nil
 --
--- if i % 5 == 0 then
--- y = y - 20
--- x = x - 250
--- end
--- LindUF["raid"..i]:SetPoint("Center", x + i * 50, y)
+--   LindUF["test"..i]:SetPoint("Center", x, y)
+--   y = y - 31
+--   if i % 5 == 0 then
+--     x = x + 52
+--     y = -300
+--   end
 --
--- LindUF["raid"..i]:init()
+--   LindUF["test"..i]:init()
 -- end
 
-local y = -300
-local x = -464
-for i = 1, 4, 1 do
-  LindUF["party"..i] = MakeLind("party"..i)
-  LindUF["party"..i]:SetWidth(72)
-  LindUF["party"..i]:SetHeight(40)
-  LindUF["party"..i].LB.Leben = nil
-  LindUF["party"..i].EB = nil
-
-  LindUF["party"..i]:SetPoint("Center", x, y)
-  x = x + 76
-  LindUF["party"..i].LB:SetHeight(LindUF["party"..i]:GetHeight())
-
-  LindUF["party"..i]:init()
-end
+-- local y = -300
+-- local x = -464
+-- for i = 1, 4, 1 do
+--   LindUF["party"..i] = MakeLind("party"..i)
+--   LindUF["party"..i]:SetWidth(72)
+--   LindUF["party"..i]:SetHeight(40)
+--   LindUF["party"..i].LB.Leben = nil
+--   LindUF["party"..i].EB = nil
+--
+--   LindUF["party"..i]:SetPoint("Center", x, y)
+--   x = x + 76
+--   LindUF["party"..i].LB:SetHeight(LindUF["party"..i]:GetHeight())
+--
+--   LindUF["party"..i]:init()
+-- end
 
 local y = 100
 local x = -100
@@ -334,3 +335,4 @@ for i = 1, 5, 1 do
   LindUF["boss"..i]:init()
 
 end
+--------------------------------------------------------------------------------
