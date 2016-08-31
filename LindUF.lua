@@ -106,28 +106,15 @@ local function MakeLind(aUnit)
       GameTooltip:Hide()
     end)
 
-  thisLind.PvpTimer = thisLind.LB:CreateFontString(nil, "OVERLAY")
-  thisLind.PvpTimer:SetFont(font, 14, "OUTLINE")
-  thisLind.PvpTimer:SetText(UnitName(aUnit))
-  thisLind.PvpTimer:SetTextColor(1, 1, 1)
-  thisLind.PvpTimer:SetPoint("RIGHT", 30, -50)
-
   thisLind:SetScript("OnUpdate", function(self, event, ...)
       if self.unit == "player" then
-
         if UnitIsPVP("player") then
-          local sec = math.floor(GetPVPTimer()/1000)
-          if sec == 301 then
-            self.PvpTimer:SetText("pvp")
-          else
-            local min = math.floor(sec/60)
-            local sec = math.floor(sec%60)
-            self.PvpTimer:SetText(min..":"..(sec > 9 and sec or "0"..sec))
-          end
+          self:SetBackdropBorderColor(1, 1, 0, 1)
         else
-          self.PvpTimer:SetText(nil)
+          self:SetBackdropBorderColor(1, 1, 1, 1)
         end
       end
+
       if self.noEventUpdate then
         self.LB:Update()
       end
@@ -284,53 +271,17 @@ LindUF.targettargettarget:SetWidth(140)
 LindUF.targettargettarget.noEventUpdate = true
 LindUF.targettargettarget:init()
 
--- local y = -300
--- local x = -199
--- for i = 1, 40, 1 do
---   LindUF["test"..i] = MakeLind("player")
---   LindUF["test"..i]:SetWidth(48)
---   LindUF["test"..i]:SetHeight(30)
---   LindUF["test"..i].LB.Leben = nil
---
---   LindUF["test"..i]:SetPoint("Center", x, y)
---   y = y - 31
---   if i % 5 == 0 then
---     x = x + 52
---     y = -300
---   end
---
---   LindUF["test"..i]:init()
--- end
-
--- local y = -300
--- local x = -464
--- for i = 1, 4, 1 do
---   LindUF["party"..i] = MakeLind("party"..i)
---   LindUF["party"..i]:SetWidth(72)
---   LindUF["party"..i]:SetHeight(40)
---   LindUF["party"..i].LB.Leben = nil
---   LindUF["party"..i].EB = nil
---
---   LindUF["party"..i]:SetPoint("Center", x, y)
---   x = x + 76
---   LindUF["party"..i].LB:SetHeight(LindUF["party"..i]:GetHeight())
---
---   LindUF["party"..i]:init()
--- end
-
 local y = 100
-local x = -100
+local x = 20
 for i = 1, 5, 1 do
   LindUF["boss"..i] = MakeLind("boss"..i)
-  LindUF["boss"..i]:SetWidth(70)
-  LindUF["boss"..i]:SetHeight(40)
+  -- LindUF["boss"..i] = MakeLind("boss"..i)
+  LindUF["boss"..i]:SetWidth(110)
+  LindUF["boss"..i]:SetHeight(36)
 
-  LindUF["boss"..i].LB.Name:SetFont(font, 8, "OUTLINE")
+  LindUF["boss"..i].LB.Name:SetFont(font, 14, "OUTLINE")
 
-  if i % 5 == 0 then
-    y = y - 20
-  end
-  LindUF["boss"..i]:SetPoint("RIGHT", x, y - i * 25)
+  LindUF["boss"..i]:SetPoint("LEFT", x, y - i * 50)
   LindUF["boss"..i].LB.Leben = nil
   LindUF["boss"..i]:init()
 
