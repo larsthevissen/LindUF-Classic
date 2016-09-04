@@ -3,7 +3,146 @@ PlayerFrame:Hide();
 TargetFrame:SetScript("OnEvent", nil);
 TargetFrame:Hide();
 
+local font = "Fonts\\ARIALN.TTF"
+
 LindUF = {}
+
+local Zero = function(aUnit)
+
+  f = CreateFrame("Button", "lind_"..aUnit, UIParent, "SecureUnitButtonTemplate")
+  f:SetWidth(100)
+  f:SetHeight(25)
+  f:SetPoint("CENTER", 0, 0)
+  f:RegisterForClicks("LeftButtonUp", "RightButtonUp");
+  f:SetAttribute('type1', 'target');
+  f:SetAttribute('type2', 'menu');
+  f:SetAttribute('unit', aUnit);
+
+  f.menu = function(self, unit, button, actionType)
+    ToggleDropDownMenu(1, nil, TargetFrameDropDown, self, 0, 0);
+  end
+  RegisterUnitWatch(f)
+  f.unit = aUnit
+  f.LifeBar = CreateFrame("StatusBar", "lind_"..aUnit.."_life", f)
+  f.LifeBar:SetPoint("Top", f, 0, 0)
+
+  f.LifeBar:SetBackdrop( {
+      bgFile = "Interface\\AddOns\\LindUF\\LindBar.tga",
+      edgeFile = "Interface\\AddOns\\LindUF\\LindBorder.tga",
+      tile = false, tileSize = 0, edgeSize = 8,
+      insets = { left = 0, right = 0, top = 0, bottom = 0 }
+    })
+  f.LifeBar:SetBackdropColor(0, 1, 0, 0);
+  f.LifeBar:SetBackdropBorderColor(1, 1, 1, 0.8)
+  f.LifeBar.parent = f
+  f.LifeBar:SetMinMaxValues(0, 100)
+  f.LifeBar:SetStatusBarTexture("Interface\\AddOns\\LindUF\\LindBar.tga")
+  f.LifeBar:SetStatusBarColor(1, 0, 0, 0.7)
+  f.LifeBar:SetHeight(20)
+  f.LifeBar:SetWidth(100)
+
+  f.Name = f.LifeBar:CreateFontString(nil, "OVERLAY")
+  f.Name:SetFont(font, 14, "OUTLINE")
+  f.Name:SetTextColor(1, 1, 1)
+  f.Name:SetPoint("LEFT", f.LifeBar, 2, 0)
+
+  f:SetScript("OnEnter", function(self, event, ...)
+      GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+      GameTooltip:SetUnit(self.unit)
+      GameTooltip:Show()
+    end)
+  f:SetScript("OnLeave", function(self, event, ...)
+      GameTooltip:Hide()
+    end)
+
+  f.LifeBar:SetScript("OnUpdate", function(self, ...)
+      local name = UnitName(self.parent.unit)
+      if name and name ~= self.parent.Name:GetText() then
+        if(strlen(name) < 10) then
+          self.parent.Name:SetText(name)
+        else
+          local string = ""
+          for x in string.gmatch(name, "[^%s]+") do
+            string = string..strsub(x, 1, 3)..". "
+          end
+          self.parent.Name:SetText(string)
+        end
+      end
+      local health = UnitHealth(self.parent.unit)
+      local healthMax = UnitHealthMax(self.parent.unit)
+      local percent = 100 * health / healthMax
+      self:SetMinMaxValues(0, healthMax)
+      self:SetValue(healthMax - health)
+    end)
+  return f
+end
+
+local One = function(aUnit)
+  f = Zero(aUnit)
+  f:SetWidth(150)
+  f.LifeBar:SetWidth(150)
+
+  f.PowerBar = CreateFrame("StatusBar", "lind_"..aUnit.."_life", f)
+  f.PowerBar:SetPoint("Top", f, 0, 0)
+
+  f.PowerBar:SetBackdrop( {
+      bgFile = "Interface\\AddOns\\LindUF\\LindBar.tga",
+      edgeFile = "Interface\\AddOns\\LindUF\\LindBorder.tga",
+      tile = false, tileSize = 0, edgeSize = 8,
+      insets = { left = 0, right = 0, top = 0, bottom = 0 }
+    })
+  f.PowerBar:SetBackdropColor(0, 1, 0, 0);
+  f.PowerBar:SetBackdropBorderColor(1, 1, 1, 0.8)
+  f.PowerBar.parent = f
+  f.PowerBar:SetMinMaxValues(0, 100)
+  f.PowerBar:SetStatusBarTexture("Interface\\AddOns\\LindUF\\LindBar.tga")
+  f.PowerBar:SetStatusBarColor(1, 1, 1, 0.5)
+  f.PowerBar:SetHeight(10)
+  f.PowerBar:SetWidth(150)
+  f.PowerBar:SetPoint("TOP", 0, -30)
+
+  f.PowerBar:SetScript("OnUpdate", function(self, ...)
+      local r, g, b = LindUF.PowerColor(self.parent.unit)
+      self:SetStatusBarColor(r, g, b, 1)
+      local power = UnitPower(self.parent.unit)
+      local powerMax = UnitPowerMax(self.parent.unit)
+      local percent = 100 * power / powerMax
+      self.parent.relPower = math.floor(percent)
+      self.parent.power = power
+      self:SetMinMaxValues(0, powerMax)
+      self:SetValue(power)
+    end)
+
+  return f;
+end
+
+local Two = function(aUnit)
+  f = One(aUnit)
+  f:SetWidth(300)
+  f.LifeBar:SetWidth(300)
+  f.PowerBar:SetWidth(300)
+  f.textPower = f.PowerBar:CreateFontString(nil, "OVERLAY")
+  f.textPower:SetFont(font, 12, "OUTLINE")
+  f.textPower:SetTextColor(1, 1, 1)
+  f.textPower:SetPoint("Left", f.PowerBar, "RIGHT", 2, 0)
+
+  f:SetScript("OnUpdate", function(self, ...)
+    self.textPower:SetText(self.power)
+  end)
+  return f;
+end
+
+local target = Two("target")
+target.LifeBar:SetReverseFill(true)
+target:ClearAllPoints()
+target:SetPoint("LEFT", UIParent, "CENTER", 100, -100)
+target.textPower:ClearAllPoints()
+target.textPower:SetPoint("RIGHT", target.PowerBar, "LEFT", -2, 0)
+
+local player = Two("player")
+player.PowerBar:SetReverseFill(true)
+player:ClearAllPoints()
+player:SetPoint("RIGHT", UIParent, "CENTER", -100, -100)
 
 local EventHandler = CreateFrame ("Frame", "EventHandler")
 EventHandler:RegisterEvent("UNIT_HEALTH_FREQUENT")
@@ -12,8 +151,6 @@ EventHandler:SetScript("OnEvent", function(self, event, unit, ...)
       LindUF[unit].LB:Update()
     end
   end)
-
-local font = "Fonts\\ARIALN.TTF"
 
 LindUF.PowerColor = function(unit)
   local powerType, powerToken, altR, altG, altB = UnitPowerType(unit)
@@ -28,262 +165,3 @@ LindUF.PowerColor = function(unit)
   end
   return r, g, b
 end
---------------------------------------------------------------------------------
-
-local function MakeLind(aUnit)
-  thisLind = CreateFrame("Button", "lind"..aUnit, UIParent, "SecureUnitButtonTemplate")
-  thisLind:SetWidth(200)
-  thisLind:SetHeight(40)
-  thisLind:SetAlpha(1.0)
-  thisLind:SetPoint("CENTER", 0, 0)
-  thisLind:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-  thisLind:SetAttribute('type1', 'target')
-  thisLind:SetAttribute('type2', 'menu')
-  thisLind:SetAttribute('unit', aUnit)
-
-  thisLind.menu = function(self, unit, button, actionType)
-    ToggleDropDownMenu(1, nil, PlayerFrameDropDown, self, 0, 0)
-  end
-  RegisterUnitWatch(thisLind)
-  thisLind.unit = aUnit
-
-  thisLind.name = ""
-  thisLind.noEventUpdate = false
-
-  thisLind.Absorb = CreateFrame("StatusBar", "lind"..aUnit.."absorb", thisLind)
-  thisLind.Predict = CreateFrame("StatusBar", "lind"..aUnit.."predict", thisLind)
-  thisLind.LB = CreateFrame("StatusBar", "lind"..aUnit.."health", thisLind)
-  thisLind.EB = CreateFrame("StatusBar", "lind"..aUnit.."power", thisLind)
-
-
-
-  thisLind:SetBackdrop( {
-      bgFile = "Interface\\AddOns\\LindUF\\LindBar.tga",
-      edgeFile = "Interface\\AddOns\\LindUF\\LindBorder.tga",
-      tile = false, tileSize = 0, edgeSize = 8,
-      insets = { left = 0, right = 0, top = 0, bottom = 0 }
-    })
-  thisLind:SetBackdropColor(0,0,0,0);
-  thisLind.LB:SetReverseFill(true)
-
-  thisLind.EB:SetBackdrop( {
-      bgFile = "Interface\\AddOns\\LindUF\\LindBar.tga",
-      edgeFile = nil,
-      tile = false, tileSize = 0, edgeSize = 0,
-      insets = { left = 0, right = 0, top = 0, bottom = 0 }
-    })
-  thisLind.EB:SetBackdropColor(1,1,1,0.4);
-  thisLind.LB.Leben = thisLind.LB:CreateFontString(nil, "OVERLAY")
-  thisLind.LB.Leben:SetFont(font, 14, "OUTLINE")
-  thisLind.LB.Leben:SetTextColor(1, 1, 1)
-  thisLind.LB.Leben:SetPoint("RIGHT")
-  thisLind.LB.Name = thisLind.LB:CreateFontString(nil, "OVERLAY")
-  thisLind.LB.Name:SetFont(font, 14, "OUTLINE")
-  thisLind.LB.Name:SetText(UnitName(aUnit))
-  thisLind.LB.Name:SetTextColor(1, 1, 1)
-  thisLind.LB.Name:SetPoint("LEFT")
-  thisLind.Update = function(self)
-    self.LB:Update()
-    if self.EB then self.EB:Update() end
-    self.Absorb:Update()
-    self.LB.Name:SetText(UnitName(self.unit))
-    local class, classFileName = UnitClass(self.unit)
-    local color = {}
-    if classFileName then
-      color = RAID_CLASS_COLORS[classFileName]
-    else
-      color = {r = 1, g = 1, b = 1}
-    end
-    self.LB.Name:SetTextColor(color.r, color.g, color.b)
-  end
-
-  thisLind:SetScript("OnEnter", function(self, event, ...)
-      GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
-      GameTooltip:SetUnit(self.unit)
-      GameTooltip:Show()
-    end)
-  thisLind:SetScript("OnLeave", function(self, event, ...)
-      GameTooltip:Hide()
-    end)
-
-  thisLind:SetScript("OnUpdate", function(self, event, ...)
-      if self.unit == "player" then
-        if UnitIsPVP("player") then
-          self:SetBackdropBorderColor(1, 1, 0, 1)
-        else
-          self:SetBackdropBorderColor(1, 1, 1, 1)
-        end
-      end
-
-      if self.noEventUpdate then
-        self.LB:Update()
-      end
-      local name = select(1,UnitName(self.unit))
-
-      if name ~= self.name then
-        if name then self:Update() end
-        self.name = name
-      end
-    end)
-  thisLind.init = function(self)
-    self.LB:SetWidth((self:GetWidth()) - 4)
-    self.LB:SetHeight((self:GetHeight()/4*3) - 4)
-    self.LB:SetMinMaxValues(0, 100)
-    self.LB:SetValue(100)
-
-    self.LB:SetStatusBarTexture("Interface\\AddOns\\LindUF\\LindBar.tga")
-    self.LB:SetStatusBarColor(1.0, 0.2, 0.2, 0.8)
-    self.LB:SetPoint("TOP", self, 0, -2)
-
-    self.Absorb:SetWidth(self:GetWidth() - 4)
-    self.Absorb:SetHeight(self:GetHeight()/4*3 - 4)
-    self.Absorb:SetMinMaxValues(0, 100)
-    self.Absorb:SetValue(0)
-
-    self.Absorb:SetStatusBarTexture("Interface\\AddOns\\LindUF\\LindBar.tga")
-    self.Absorb:SetStatusBarColor(0.7, 0.2, 1, 1)
-    self.Absorb:SetPoint("TOP", self, 0, -2)
-    self.Absorb.Update = function(self)
-      local totalAbsorbs = UnitGetTotalAbsorbs(self.unit)
-      local maxHealth = UnitHealthMax(self.unit)
-      local percent = 100*totalAbsorbs/maxHealth
-      if percent > 100 then
-        percent = 100
-      end
-      self:SetValue(percent)
-    end
-
-    self.Absorb:RegisterEvent("UNIT_ABSORB_AMOUNT_CHANGED")
-    self.Absorb.unit = self.unit
-    self.Absorb:SetScript("OnEvent", function(self, event, ...)
-        self:Update()
-      end)
-
-    self.Predict:SetWidth(self:GetWidth() - 4)
-    self.Predict:SetHeight(self:GetHeight()/4*3 - 4)
-    self.Predict:SetMinMaxValues(0, 100)
-    self.Predict:SetValue(0)
-
-    self.Predict:SetStatusBarTexture("Interface\\AddOns\\LindUF\\LindBar.tga")
-    self.Predict:SetStatusBarColor(0.1, 1.0, 0.1, 1.0)
-    self.Predict:SetPoint("TOP", self, 0, -2)
-
-    self.Predict.unit = self.unit
-    self.Predict.parent = self
-    self.Predict:SetScript("OnUpdate", function(self, event, ...)
-        local heal = UnitGetIncomingHeals(self.unit);
-        local health = UnitHealth(self.unit)
-        local maxHealth = UnitHealthMax(self.unit)
-        local percent = 0
-        if(heal) then
-          percent = 100*health/maxHealth
-          self:SetPoint("TOP",self.parent, (percent*self:GetWidth()/100), -2)
-          percent = 100*heal/maxHealth
-          if percent > 100 then
-            percent = 100
-          end
-        end
-        self:SetValue(percent)
-      end)
-
-    self.LB.unit = self.unit
-    self.LB.Update = function(self)
-      local totalAbsorbs = UnitGetTotalAbsorbs("unit")
-      local health = UnitHealth(self.unit)
-      local maxHealth = UnitHealthMax(self.unit)
-      local percent = 100*health/maxHealth
-      if self.Leben then
-        if health > 9999999 then
-          self.Leben:SetText(string.format("%.0f M", (health / 1000000)))
-        elseif health > 9999 then
-          self.Leben:SetText(string.format("%.0f K", (health / 1000)))
-        else
-          self.Leben:SetText(health)
-        end
-      end
-      self:SetValue(100-percent)
-    end
-    self.LB:SetScript("OnEvent", function(self, event, ...)
-        self:Update()
-      end)
-
-    if self.EB then
-      self.EB:SetWidth(self:GetWidth()-4)
-      self.EB:SetHeight(self:GetHeight()/4)
-      self.EB:SetMinMaxValues(0, 100)
-      self.EB:SetValue(100)
-      self.EB:SetStatusBarTexture("Interface\\AddOns\\LindUF\\LindBar.tga")
-      self.EB:SetPoint("TOP", self, 0, -self.LB:GetHeight() - 2)
-      self.EB:RegisterEvent("UNIT_POWER_FREQUENT")
-      self.EB.unit = self.unit
-      self.EB.Update = function(self)
-        local r, g, b = LindUF.PowerColor(self.unit)
-        self:SetStatusBarColor(r, g, b, 0.8)
-        self:SetBackdropColor(r, g, b, 0.2)
-        local health = UnitPower(self.unit)
-        local maxHealth = UnitPowerMax(self.unit)
-        local percent = 100*health/maxHealth
-        self:SetValue(percent)
-
-      end
-      self.EB:SetScript("OnEvent", function(self, event, ...)
-          self:Update()
-        end)
-    end
-  end
-  return thisLind
-end
-
-LindUF.player = MakeLind("player")
-LindUF.player:SetPoint("CENTER", -350, -200)
-LindUF.player:SetWidth(300)
-LindUF.player:init()
-
-LindUF.target = MakeLind("target")
-LindUF.target:SetPoint("CENTER", 350, -200)
-LindUF.target:SetWidth(300)
-
-LindUF.target.menu = function(self, unit, button, actionType)
-  ToggleDropDownMenu(1, nil, TargetFrameDropDown, LindUF.target, 0, 0)
-end
-LindUF.target:init()
-
-LindUF.targettarget = MakeLind("targettarget")
-LindUF.targettarget:SetPoint("CENTER", 270, -120)
-LindUF.targettarget:SetWidth(140)
-LindUF.targettarget.noEventUpdate = true
-LindUF.targettarget:init()
-
-LindUF.pet = MakeLind("pet")
-LindUF.pet:SetPoint("CENTER", -430, -120)
-LindUF.pet:SetWidth(140)
-LindUF.pet:init()
-
-LindUF.pettarget = MakeLind("pettarget")
-LindUF.pettarget:SetPoint("CENTER", -270, -120)
-LindUF.pettarget:SetWidth(140)
-LindUF.pettarget.noEventUpdate = true
-LindUF.pettarget:init()
-
-LindUF.targettargettarget = MakeLind("targettargettarget")
-LindUF.targettargettarget:SetPoint("CENTER", 430, -120)
-LindUF.targettargettarget:SetWidth(140)
-LindUF.targettargettarget.noEventUpdate = true
-LindUF.targettargettarget:init()
-
-local y = 100
-local x = 20
-for i = 1, 5, 1 do
-  LindUF["boss"..i] = MakeLind("boss"..i)
-  -- LindUF["boss"..i] = MakeLind("boss"..i)
-  LindUF["boss"..i]:SetWidth(110)
-  LindUF["boss"..i]:SetHeight(36)
-
-  LindUF["boss"..i].LB.Name:SetFont(font, 14, "OUTLINE")
-
-  LindUF["boss"..i]:SetPoint("LEFT", x, y - i * 50)
-  LindUF["boss"..i].LB.Leben = nil
-  LindUF["boss"..i]:init()
-
-end
---------------------------------------------------------------------------------
