@@ -1,11 +1,24 @@
-PlayerFrame:SetScript("OnEvent", nil);
-PlayerFrame:Hide();
-TargetFrame:SetScript("OnEvent", nil);
-TargetFrame:Hide();
+-- PlayerFrame:SetScript("OnEvent", nil);
+-- PlayerFrame:Hide();
+-- TargetFrame:SetScript("OnEvent", nil);
+-- TargetFrame:Hide();
 
-local font = "Fonts\\ARIALN.TTF"
+local font = "Fonts\\2002.TTF"
 
 LindUF = {}
+
+local NewUnitFrame = function(unit, width, height, x, y)
+  f = CreateFrame("Button", "LindBeta", UIParent, "SecureUnitButtonTemplate")
+  f.NewStatusBar = function(self, unit, width, height, x, y, min, max, value)
+    b = CreateFrame("StatusBar", "LindBeta", self)
+    b.parent = self
+  end
+
+  f:SetWidth(width)
+  f:SetHeight(height)
+  f:SetPoint("CENTER", x, y)
+  f.unit = unit
+end
 
 local Zero = function(aUnit)
 
@@ -17,6 +30,9 @@ local Zero = function(aUnit)
   f:SetAttribute('type1', 'target');
   f:SetAttribute('type2', 'menu');
   f:SetAttribute('unit', aUnit);
+  f.nameLength = 6
+  f.power = 0
+  f.relPower = 0
 
   f.menu = function(self, unit, button, actionType)
     ToggleDropDownMenu(1, nil, TargetFrameDropDown, self, 0, 0);
@@ -56,21 +72,35 @@ local Zero = function(aUnit)
     end)
 
   f.LifeBar:SetScript("OnUpdate", function(self, ...)
+    local IconIndex = GetRaidTargetIndex(self.parent.unit)
+    if IconIndex then
+      if not self.raidIcon then
+        self.raidIcon = CreateFrame("Frame", self.parent.unit.."Icon", self)
+        self.raidIcon:SetWidth(32)
+        self.raidIcon:SetHeight(32)
+        self.raidIcon:SetPoint("CENTER", self, "CENTER", 0, 10)
+        self.raidIcon.texture = self.raidIcon:CreateTexture(nil, "BACKGROUND")
+        self.raidIcon.texture:SetAllPoints(self.raidIcon)
+      end
+      self.raidIcon.texture:SetTexture("Interface\\TargetingFrame\\UI-RaidTargetingIcon_"..IconIndex..".PNG")
+    else
+      if self.raidIcon then
+        self.raidIcon.texture:SetTexture(nil)
+      end
+    end
       local name = UnitName(self.parent.unit)
       if name and name ~= self.parent.Name:GetText() then
-        if(strlen(name) < 10) then
+        if(strlen(name) <= self.parent.nameLength) then
           self.parent.Name:SetText(name)
         else
-          local string = ""
-          for x in string.gmatch(name, "[^%s]+") do
-            string = string..strsub(x, 1, 3)..". "
-          end
-          self.parent.Name:SetText(string)
+          self.parent.Name:SetText(strsub(name, 1, self.parent.nameLength))
         end
       end
       local health = UnitHealth(self.parent.unit)
       local healthMax = UnitHealthMax(self.parent.unit)
       local percent = 100 * health / healthMax
+      self.parent.health = health
+      self.parent.relHealth = math.floor(percent)
       self:SetMinMaxValues(0, healthMax)
       self:SetValue(healthMax - health)
     end)
@@ -79,8 +109,9 @@ end
 
 local One = function(aUnit)
   f = Zero(aUnit)
-  f:SetWidth(150)
-  f.LifeBar:SetWidth(150)
+  f:SetWidth(145)
+  f.LifeBar:SetWidth(145)
+  f.nameLength = 10
 
   f.PowerBar = CreateFrame("StatusBar", "lind_"..aUnit.."_life", f)
   f.PowerBar:SetPoint("Top", f, 0, 0)
@@ -98,19 +129,24 @@ local One = function(aUnit)
   f.PowerBar:SetStatusBarTexture("Interface\\AddOns\\LindUF\\LindBar.tga")
   f.PowerBar:SetStatusBarColor(1, 1, 1, 0.5)
   f.PowerBar:SetHeight(10)
-  f.PowerBar:SetWidth(150)
-  f.PowerBar:SetPoint("TOP", 0, -30)
+  f.PowerBar:SetWidth(145)
+  f.PowerBar:SetPoint("TOP", 0, -22)
 
   f.PowerBar:SetScript("OnUpdate", function(self, ...)
       local r, g, b = LindUF.PowerColor(self.parent.unit)
       self:SetStatusBarColor(r, g, b, 1)
       local power = UnitPower(self.parent.unit)
       local powerMax = UnitPowerMax(self.parent.unit)
-      local percent = 100 * power / powerMax
-      self.parent.relPower = math.floor(percent)
-      self.parent.power = power
-      self:SetMinMaxValues(0, powerMax)
-      self:SetValue(power)
+      if powerMax > 0 then
+        self:SetAlpha(1)
+        local percent = 100 * power / powerMax
+        self.parent.relPower = math.floor(percent)
+        self.parent.power = power
+        self:SetMinMaxValues(0, powerMax)
+        self:SetValue(power)
+      else
+        self:SetAlpha(0)
+      end
     end)
 
   return f;
@@ -118,39 +154,84 @@ end
 
 local Two = function(aUnit)
   f = One(aUnit)
+  f.nameLength = 20
   f:SetWidth(300)
   f.LifeBar:SetWidth(300)
   f.PowerBar:SetWidth(300)
   f.textPower = f.PowerBar:CreateFontString(nil, "OVERLAY")
   f.textPower:SetFont(font, 12, "OUTLINE")
   f.textPower:SetTextColor(1, 1, 1)
-  f.textPower:SetPoint("Left", f.PowerBar, "RIGHT", 2, 0)
+  f.textPower:SetPoint("RIGHT", f.PowerBar, "LEFT", -2, 0)
+
+  f.textRelPower = f.PowerBar:CreateFontString(nil, "OVERLAY")
+  f.textRelPower:SetFont(font, 12, "OUTLINE")
+  f.textRelPower:SetTextColor(1, 1, 1)
+  f.textRelPower:SetPoint("RIGHT", f.PowerBar, "RIGHT", 45, 0)
+
+  f.textHealth = f.LifeBar:CreateFontString(nil, "OVERLAY")
+  f.textHealth:SetFont(font, 12, "OUTLINE")
+  f.textHealth:SetTextColor(1, 1, 1)
+  f.textHealth:SetPoint("RIGHT", f.LifeBar, "LEFT", -2, 0)
+
+  f.textRelHealth = f.LifeBar:CreateFontString(nil, "OVERLAY")
+  f.textRelHealth:SetFont(font, 12, "OUTLINE")
+  f.textRelHealth:SetTextColor(1, 1, 1)
+  f.textRelHealth:SetPoint("RIGHT", f.LifeBar, "RIGHT", 45, 0)
 
   f:SetScript("OnUpdate", function(self, ...)
-    self.textPower:SetText(self.power)
-  end)
+      self.textPower:SetText(self.power)
+      self.textRelPower:SetText(self.relPower.."%")
+      if self.health < 9999 then
+        self.textHealth:SetText(self.health)
+      elseif self.health < 9999999 then
+        self.textHealth:SetText(math.floor(self.health / 1000).."K")
+      else
+        self.textHealth:SetText(math.floor(self.health / 1000000).."M")
+      end
+      self.textRelHealth:SetText(self.relHealth.."%")
+    end)
   return f;
 end
 
 local target = Two("target")
 target.LifeBar:SetReverseFill(true)
 target:ClearAllPoints()
-target:SetPoint("LEFT", UIParent, "CENTER", 100, -100)
+target:SetPoint("LEFT", UIParent, "CENTER", 150, -150)
 target.textPower:ClearAllPoints()
-target.textPower:SetPoint("RIGHT", target.PowerBar, "LEFT", -2, 0)
+target.textPower:SetPoint("LEFT", target.PowerBar, "RIGHT", 2, 0)
+target.textHealth:ClearAllPoints()
+target.textHealth:SetPoint("LEFT", target.LifeBar, "RIGHT", 2, 0)
+target.textRelPower:ClearAllPoints()
+target.textRelPower:SetPoint("RIGHT", target.PowerBar, "LEFT", -2, 0)
+target.textRelHealth:ClearAllPoints()
+target.textRelHealth:SetPoint("RIGHT", target.LifeBar, "LEFT", -2, 0)
+
+local targettarget = One("targettarget")
+targettarget:ClearAllPoints()
+targettarget:SetPoint("TOPLEFT", target, "BOTTOMLEFT", 0, -40)
+
+local targettargettarget = One("targettargettarget")
+targettargettarget:ClearAllPoints()
+targettargettarget:SetPoint("TOPRIGHT", target, "BOTTOMRIGHT", 0, -40)
 
 local player = Two("player")
+player.menu = function(self, unit, button, actionType)
+  ToggleDropDownMenu(1, nil, PlayerFrameDropDown, self, 0, 0);
+end
 player.PowerBar:SetReverseFill(true)
 player:ClearAllPoints()
-player:SetPoint("RIGHT", UIParent, "CENTER", -100, -100)
+player:SetPoint("RIGHT", UIParent, "CENTER", -150, -150)
 
-local EventHandler = CreateFrame ("Frame", "EventHandler")
-EventHandler:RegisterEvent("UNIT_HEALTH_FREQUENT")
-EventHandler:SetScript("OnEvent", function(self, event, unit, ...)
-    if LindUF[unit] then
-      LindUF[unit].LB:Update()
-    end
-  end)
+local pet = One("pet")
+pet.menu = function(self, unit, button, actionType)
+  ToggleDropDownMenu(1, nil, PetFrameDropDown, self, 0, 0);
+end
+pet:ClearAllPoints()
+pet:SetPoint("TOPLEFT", player, "BOTTOMLEFT", 0, -40)
+
+local pettarget = One("pettarget")
+pettarget:ClearAllPoints()
+pettarget:SetPoint("TOPRIGHT", player, "BOTTOMRIGHT", 0, -40)
 
 LindUF.PowerColor = function(unit)
   local powerType, powerToken, altR, altG, altB = UnitPowerType(unit)
