@@ -190,6 +190,7 @@ local Two = function(aUnit)
       end
       self.textRelHealth:SetText(self.relHealth.."%")
     end)
+
   return f;
 end
 
@@ -246,3 +247,27 @@ LindUF.PowerColor = function(unit)
   end
   return r, g, b
 end
+
+PlayerPowerBarAlt:ClearAllPoints()
+PlayerPowerBarAlt:SetParent("UIParent")
+PlayerPowerBarAlt:SetPoint("TOP", UIParent, "TOP", 0, -30)
+PlayerPowerBarAlt:SetScale(0.75)
+
+PlayerPowerBarAlt:SetMovable(true)
+-- PlayerPowerBarAlt:EnableMouse(true)
+PlayerPowerBarAlt:SetUserPlaced(true)
+-- PlayerPowerBarAlt:SetClampedToScreen(true)
+-- PlayerPowerBarAlt:RegisterForDrag("LeftButton")
+--
+-- PlayerPowerBarAlt:SetScript("OnDragStart", function(self)
+-- self:StartMoving()
+-- end)
+--
+-- PlayerPowerBarAlt:SetScript("OnDragStop", function(self)
+-- self:StopMovingOrSizing()
+-- end)
+--
+-- TargetFramePowerBarAlt:ClearAllPoints()
+-- TargetFramePowerBarAlt:SetParent("UIParent")
+-- TargetFramePowerBarAlt:SetPoint("TOP", UIParent, "TOP", 0, -60)
+-- TargetFramePowerBarAlt:SetScale(0.75)
