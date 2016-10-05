@@ -7,19 +7,6 @@ local font = "Fonts\\2002.TTF"
 
 LindUF = {}
 
-local NewUnitFrame = function(unit, width, height, x, y)
-  f = CreateFrame("Button", "LindBeta", UIParent, "SecureUnitButtonTemplate")
-  f.NewStatusBar = function(self, unit, width, height, x, y, min, max, value)
-    b = CreateFrame("StatusBar", "LindBeta", self)
-    b.parent = self
-  end
-
-  f:SetWidth(width)
-  f:SetHeight(height)
-  f:SetPoint("CENTER", x, y)
-  f.unit = unit
-end
-
 local Zero = function(aUnit)
 
   f = CreateFrame("Button", "lind_"..aUnit, UIParent, "SecureUnitButtonTemplate")
