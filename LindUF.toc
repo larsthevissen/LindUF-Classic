@@ -1,7 +1,11 @@
 ## Interface: 70000
-## Version: 0.2
+## Version: 0.3.0a
 ## Title: LindUF
 ## Notes: Unit Frame Replacement
 ## Author: Lars Thevissen
 
 LindUF.lua
+data\UnitFrame.lua
+data\HealthBar.lua
+data\PowerBar.lua
+unit\player.lua
