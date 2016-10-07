@@ -9,6 +9,7 @@ LindUF.UnitFrame = function(self, unit)
   f:RegisterForClicks("LeftButtonUp", "RightButtonUp")
   f:SetAttribute("type1", "target")
   f:SetAttribute("type2", "menu")
+  RegisterUnitWatch(f)
   if unit == "player" then
     f.menu = function(self, unit, button, actionType)
       ToggleDropDownMenu(1, nil, PlayerFrameDropDown, self, 0, 0)

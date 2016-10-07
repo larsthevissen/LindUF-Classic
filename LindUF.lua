@@ -235,6 +235,11 @@ LindUF.PowerColor = function(unit)
   return r, g, b
 end
 
+LindUF.ClassColor = function(unit)
+  local class, classFileName = UnitClass(unit)
+  local color = RAID_CLASS_COLORS[classFileName] or {r=0, g=1, b=0}
+  return color.r, color.g ,color.b
+end
 PlayerPowerBarAlt:ClearAllPoints()
 PlayerPowerBarAlt:SetParent("UIParent")
 PlayerPowerBarAlt:SetPoint("TOP", UIParent, "TOP", 0, -30)

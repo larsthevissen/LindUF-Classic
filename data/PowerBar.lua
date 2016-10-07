@@ -30,9 +30,16 @@ LindUF.PowerBar = function(self, p)
     local power = UnitPower(self.unit)
     local powerMax = UnitPowerMax(self.unit)
     local r, g, b = LindUF.PowerColor(self.unit)
-    self.Power:SetStatusBarColor(r, g, b, 1)
-    self.Power:SetMinMaxValues(0, powerMax)
-    self.Power:SetValue(power)
+    if powerMax > 0 then
+      self.Power:SetAlpha(1)
+      self:SetAlpha(1)
+      self.Power:SetStatusBarColor(r, g, b, 1)
+      self.Power:SetMinMaxValues(0, powerMax)
+      self.Power:SetValue(power)
+    else
+      self.Power:SetAlpha(0)
+      self:SetAlpha(0)
+    end
   end)
 
   p.PowerBar = f

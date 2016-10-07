@@ -1,4 +1,5 @@
 LindUF.HealthBar = function(self, p)
+
   if not p then return end
   if p.HealthBar then return end
 
@@ -28,16 +29,15 @@ LindUF.HealthBar = function(self, p)
 
   f.Predict = CreateFrame("StatusBar", "lind."..p.unit..".Predict", f)
   f.Predict:SetStatusBarTexture("Interface\\AddOns\\LindUF\\LindBar.tga")
-  f.Predict:SetStatusBarColor(1, 1, 1, .5)
+  f.Predict:SetStatusBarColor(0, 1, 0, .5)
   f.Predict:SetPoint("CENTER", f, "CENTER", 0, 0)
   f.Predict:SetWidth(f:GetWidth()-4)
   f.Predict:SetHeight(f:GetHeight()-4)
 
   f.Health = CreateFrame("StatusBar", "lind."..p.unit..".Health", f)
   f.Health:SetStatusBarTexture("Interface\\AddOns\\LindUF\\LindBar.tga")
-  local class, classFileName = UnitClass(p.unit)
-  local color = RAID_CLASS_COLORS[classFileName]
-  f.Health:SetStatusBarColor(color.r, color.g, color.b, 1)
+  local r, g, b = LindUF.ClassColor(f.unit)
+  f.Health:SetStatusBarColor(r, g, b, 1)
   f.Health:SetPoint("CENTER", f, "CENTER", 0, 0)
   f.Health:SetWidth(f:GetWidth()-4)
   f.Health:SetHeight(f:GetHeight()-4)
@@ -50,13 +50,13 @@ LindUF.HealthBar = function(self, p)
     local predict = UnitGetIncomingHeals(self.unit)
     local absorb = UnitGetTotalAbsorbs(self.unit)
 
-    local color = RAID_CLASS_COLORS[classFileName]
-    self.Health:SetStatusBarColor(color.r, color.g, color.b, 1)
+    local r, g, b = LindUF.ClassColor(f.unit)
+    self.Health:SetStatusBarColor(r, g, b, 1)
 
     self.Predict:ClearAllPoints()
-    self.Predict:SetPoint("LEFT", self.Health, "LEFT", self:GetWidth()/healthMax*health, 0)
+    self.Predict:SetPoint("LEFT", self.Health, "LEFT", self.Health:GetWidth()/healthMax*health, 0)
     self.Predict:SetMinMaxValues(0, healthMax)
-    self.Predict:SetValue(predict)
+    self.Predict:SetValue(predict or 0)
 
     self.Absorb:SetMinMaxValues(0, healthMax)
     self.Absorb:SetValue(absorb)
