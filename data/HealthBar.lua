@@ -43,8 +43,9 @@ LindUF.HealthBar = function(self, p)
   f.Health:SetHeight(f:GetHeight()-4)
   f.Health:SetReverseFill(true)
 
-
+SetMapToCurrentZone()
   f:SetScript("OnUpdate", function(self, ...)
+
     local health = UnitHealth(self.unit)
     local healthMax = UnitHealthMax(self.unit)
     local predict = UnitGetIncomingHeals(self.unit)

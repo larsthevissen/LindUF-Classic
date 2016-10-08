@@ -44,3 +44,7 @@ LindUF.PowerBar = function(self, p)
 
   p.PowerBar = f
 end
+
+-- Aura.lua START --
+
+-- Aura.lua END --

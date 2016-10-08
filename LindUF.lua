@@ -181,45 +181,45 @@ local Two = function(aUnit)
   return f;
 end
 
-local target = Two("target")
-target.LifeBar:SetReverseFill(true)
-target:ClearAllPoints()
-target:SetPoint("LEFT", UIParent, "CENTER", 150, -150)
-target.textPower:ClearAllPoints()
-target.textPower:SetPoint("LEFT", target.PowerBar, "RIGHT", 2, 0)
-target.textHealth:ClearAllPoints()
-target.textHealth:SetPoint("LEFT", target.LifeBar, "RIGHT", 2, 0)
-target.textRelPower:ClearAllPoints()
-target.textRelPower:SetPoint("RIGHT", target.PowerBar, "LEFT", -2, 0)
-target.textRelHealth:ClearAllPoints()
-target.textRelHealth:SetPoint("RIGHT", target.LifeBar, "LEFT", -2, 0)
-
-local targettarget = One("targettarget")
-targettarget:ClearAllPoints()
-targettarget:SetPoint("TOPLEFT", target, "BOTTOMLEFT", 0, -40)
-
-local targettargettarget = One("targettargettarget")
-targettargettarget:ClearAllPoints()
-targettargettarget:SetPoint("TOPRIGHT", target, "BOTTOMRIGHT", 0, -40)
-
-local player = Two("player")
-player.menu = function(self, unit, button, actionType)
-  ToggleDropDownMenu(1, nil, PlayerFrameDropDown, self, 0, 0);
-end
-player.PowerBar:SetReverseFill(true)
-player:ClearAllPoints()
-player:SetPoint("RIGHT", UIParent, "CENTER", -150, -150)
-
-local pet = One("pet")
-pet.menu = function(self, unit, button, actionType)
-  ToggleDropDownMenu(1, nil, PetFrameDropDown, self, 0, 0);
-end
-pet:ClearAllPoints()
-pet:SetPoint("TOPLEFT", player, "BOTTOMLEFT", 0, -40)
-
-local pettarget = One("pettarget")
-pettarget:ClearAllPoints()
-pettarget:SetPoint("TOPRIGHT", player, "BOTTOMRIGHT", 0, -40)
+-- local target = Two("target")
+-- target.LifeBar:SetReverseFill(true)
+-- target:ClearAllPoints()
+-- target:SetPoint("LEFT", UIParent, "CENTER", 150, -150)
+-- target.textPower:ClearAllPoints()
+-- target.textPower:SetPoint("LEFT", target.PowerBar, "RIGHT", 2, 0)
+-- target.textHealth:ClearAllPoints()
+-- target.textHealth:SetPoint("LEFT", target.LifeBar, "RIGHT", 2, 0)
+-- target.textRelPower:ClearAllPoints()
+-- target.textRelPower:SetPoint("RIGHT", target.PowerBar, "LEFT", -2, 0)
+-- target.textRelHealth:ClearAllPoints()
+-- target.textRelHealth:SetPoint("RIGHT", target.LifeBar, "LEFT", -2, 0)
+--
+-- local targettarget = One("targettarget")
+-- targettarget:ClearAllPoints()
+-- targettarget:SetPoint("TOPLEFT", target, "BOTTOMLEFT", 0, -40)
+--
+-- local targettargettarget = One("targettargettarget")
+-- targettargettarget:ClearAllPoints()
+-- targettargettarget:SetPoint("TOPRIGHT", target, "BOTTOMRIGHT", 0, -40)
+--
+-- local player = Two("player")
+-- player.menu = function(self, unit, button, actionType)
+--   ToggleDropDownMenu(1, nil, PlayerFrameDropDown, self, 0, 0);
+-- end
+-- player.PowerBar:SetReverseFill(true)
+-- player:ClearAllPoints()
+-- player:SetPoint("RIGHT", UIParent, "CENTER", -150, -150)
+--
+-- local pet = One("pet")
+-- pet.menu = function(self, unit, button, actionType)
+--   ToggleDropDownMenu(1, nil, PetFrameDropDown, self, 0, 0);
+-- end
+-- pet:ClearAllPoints()
+-- pet:SetPoint("TOPLEFT", player, "BOTTOMLEFT", 0, -40)
+--
+-- local pettarget = One("pettarget")
+-- pettarget:ClearAllPoints()
+-- pettarget:SetPoint("TOPRIGHT", player, "BOTTOMRIGHT", 0, -40)
 
 LindUF.PowerColor = function(unit)
   local powerType, powerToken, altR, altG, altB = UnitPowerType(unit)

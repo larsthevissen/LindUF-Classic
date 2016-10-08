@@ -2,7 +2,7 @@ local player = LindUF:UnitFrame("player")
 player:SetWidth(300)
 player:SetHeight(20)
 player:ClearAllPoints()
-player:SetPoint("RIGHT", UIParent, "CENTER", -100, 0)
+player:SetPoint("RIGHT", UIParent, "CENTER", -200, -200)
 
 LindUF:HealthBar(player)
 LindUF:PowerBar(player)
@@ -19,7 +19,7 @@ local target = LindUF:UnitFrame("target")
 target:SetWidth(300)
 target:SetHeight(20)
 target:ClearAllPoints()
-target:SetPoint("LEFT", UIParent, "CENTER", 100, 0)
+target:SetPoint("LEFT", UIParent, "CENTER", 200, -200)
 
 LindUF:HealthBar(target)
 LindUF:PowerBar(target)
@@ -30,7 +30,30 @@ target.PowerBar.Power:SetHeight(6)
 target.PowerBar:SetHeight(10)
 -- target.lua END --
 
--- raid.lua START --
+-- targettarget.lua START --
+local targettarget = LindUF:UnitFrame("targettarget")
+targettarget:SetWidth(150)
+targettarget:SetHeight(20)
+targettarget:ClearAllPoints()
+targettarget:SetPoint("BOTTOMLEFT", target, "TOPLEFT", 0, 10)
 
+LindUF:HealthBar(targettarget)
+-- targettarget.lua END --
+
+-- raid.lua START --
+local raid = {}
+for i = 1, 40 do
+  raid[i] = LindUF:UnitFrame("raid"..i)
+  raid[i]:SetWidth(100)
+  raid[i]:SetHeight(20)
+  raid[i]:ClearAllPoints()
+  if (i < 21) then
+    raid[i]:SetPoint("LEFT", UIParent, "LEFT", 10, 200-i*23)
+  else
+    raid[i]:SetPoint("LEFT", UIParent, "LEFT", 120, 200-(i-20)*23)
+  end
+
+  LindUF:HealthBar(raid[i])
+end
 
 -- raid.lua END --
