@@ -1,7 +1,7 @@
--- PlayerFrame:SetScript("OnEvent", nil);
--- PlayerFrame:Hide();
--- TargetFrame:SetScript("OnEvent", nil);
--- TargetFrame:Hide();
+PlayerFrame:SetScript("OnEvent", nil);
+PlayerFrame:Hide();
+TargetFrame:SetScript("OnEvent", nil);
+TargetFrame:Hide();
 
 local font = "Fonts\\2002.TTF"
 

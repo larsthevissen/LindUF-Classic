@@ -16,11 +16,14 @@ LindUF.UnitFrame = function(self, unit)
     end
   else
     f.menu = function(self, unit, button, actionType)
-      ToggleDropDownMenu(1, nil, PlayerFrameDropDown, self, 0, 0)
+      ToggleDropDownMenu(1, nil, TargetFrameDropDown, self, 0, 0)
     end
   end
 
   f.unit = unit
 
+  f:SetScript("OnUpdate", function(self, ...)
+
+  end)
   return f
 end

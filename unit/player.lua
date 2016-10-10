@@ -12,7 +12,10 @@ player.PowerBar:ClearAllPoints()
 player.PowerBar:SetPoint("TOP", player.HealthBar, "BOTTOM", 0, -3)
 player.PowerBar.Power:SetHeight(6)
 
-
+LindUF:CastBar(player)
+player.CastBar:ClearAllPoints()
+player.CastBar:SetHeight(8)
+player.CastBar:SetPoint("TOP", player.PowerBar, "BOTTOM", 0, -3)
 
 -- target.lua START --
 local target = LindUF:UnitFrame("target")
@@ -28,6 +31,11 @@ target.PowerBar:ClearAllPoints()
 target.PowerBar:SetPoint("TOP", target.HealthBar, "BOTTOM", 0, -3)
 target.PowerBar.Power:SetHeight(6)
 target.PowerBar:SetHeight(10)
+
+LindUF:CastBar(target)
+target.CastBar:ClearAllPoints()
+target.CastBar:SetHeight(8)
+target.CastBar:SetPoint("TOP", target.PowerBar, "BOTTOM", 0, -3)
 -- target.lua END --
 
 -- targettarget.lua START --
