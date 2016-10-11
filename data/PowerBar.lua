@@ -60,7 +60,7 @@ LindUF.CastBar = function(self, p)
   f:SetStatusBarColor(1, .7, .3, 1)
 
   f:SetScript("OnUpdate", function(self, ...)
-    local name, _, _, _, startTime, endTime, _, _, interupt = UnitCastingInfo(self.unit)
+    local name, _, _, _, startTime, endTime, _, _, interrupt = UnitCastingInfo(self.unit)
     if(name) then
       if(interupt) then self:SetStatusBarColor(1, 0, 0, 1)
       else self:SetStatusBarColor(1, .7, .3, 1) end
@@ -68,10 +68,23 @@ LindUF.CastBar = function(self, p)
       local finish = endTime/1000
       self:SetMinMaxValues(start, finish)
       self:SetValue(GetTime())
-    else
-      self:SetMinMaxValues(0, 1)
-      self:SetValue(0)
+      return
     end
+
+    name, _, _, _, startTime, endTime, _, interrupt = UnitChannelInfo(self.unit)
+    if(name) then
+      if(interupt) then self:SetStatusBarColor(1, 0, 0, 1)
+      else self:SetStatusBarColor(1, .7, .3, 1) end
+      local start = startTime/1000
+      local finish = endTime/1000
+      self:SetMinMaxValues(start, finish)
+      self:SetValue(GetTime())
+      return
+    end
+
+    self:SetMinMaxValues(0, 1)
+    self:SetValue(0)
+
   end)
   p.CastBar = f
 end
