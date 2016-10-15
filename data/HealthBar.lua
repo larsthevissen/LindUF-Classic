@@ -51,6 +51,17 @@ LindUF.HealthBar = function(self, p)
   f.predict = 0
   f.absorb = 0
 
+  f:RegisterEvent("UNIT_HEALTH_FREQUENT")
+  f:RegisterEvent("VARIABLES_LOADED")
+  f:SetScript("OnEvent", function(self, event, unit, ...)
+    if unit == self.unit or event == "VARIABLES_LOADED" then
+      local health = UnitHealth(self.unit)
+      local healthMax = UnitHealthMax(self.unit)
+      self.Health:SetMinMaxValues(0, healthMax)
+      self.Health:SetValue(healthMax-health)
+    end
+  end)
+
   f:SetScript("OnUpdate", function(self, ...)
 
       local health = UnitHealth(self.unit)
@@ -74,11 +85,8 @@ LindUF.HealthBar = function(self, p)
         self.Absorb:SetValue(absorb)
         self.absorb = absorb
       end
-      if health ~= self.hp then
-        self.Health:SetMinMaxValues(0, healthMax)
-        self.Health:SetValue(healthMax-health)
-        self.health = health
-      end
+
+      self.health = health
     end)
 
   p.HealthBar = f

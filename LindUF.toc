@@ -8,4 +8,8 @@ LindUF.lua
 data\UnitFrame.lua
 data\HealthBar.lua
 data\PowerBar.lua
+data\CastBar.lua
 unit\player.lua
+unit\target.lua
+unit\targettarget.lua
+unit\raid.lua

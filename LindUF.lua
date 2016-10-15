@@ -3,9 +3,10 @@ PlayerFrame:Hide();
 TargetFrame:SetScript("OnEvent", nil);
 TargetFrame:Hide();
 
-local font = "Fonts\\2002.TTF"
-
 LindUF = {}
+LindUF.font = "Fonts\\2002.TTF"
+LindUF.border = "Interface\\Addons\\LindUF\\LindBorder.tga"
+LindUF.bg = "Interface\\Addons\\LindUF\\LindBar.tga"
 
 LindUF.PowerColor = function(unit)
   local powerType, powerToken, altR, altG, altB = UnitPowerType(unit)
@@ -27,10 +28,10 @@ LindUF.ClassColor = function(unit)
   return color.r, color.g ,color.b
 end
 
+-- reposition the alternative Power Bar
 PlayerPowerBarAlt:ClearAllPoints()
 PlayerPowerBarAlt:SetParent("UIParent")
 PlayerPowerBarAlt:SetPoint("TOP", UIParent, "TOP", 0, -30)
 PlayerPowerBarAlt:SetScale(0.75)
 PlayerPowerBarAlt:SetMovable(true)
 PlayerPowerBarAlt:SetUserPlaced(true)
-
