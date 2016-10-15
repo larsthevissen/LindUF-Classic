@@ -26,13 +26,16 @@ LindUF.PowerBar = function(self, p)
   f.Power:SetWidth(f:GetWidth()-4)
   f.Power:SetHeight(f:GetHeight()-4)
 
-  f:RegisterEvent("UNIT_POWER_FREQUIT")
+  f.power = -1
+  f.update = 0
 
-  f:SetScript("OnEvent", function(self, event, unit, ...)
-    if unit == self.unit then
-      local power = UnitPower(self.unit)
-      local powerMax = UnitPowerMax(self.unit)
-      local r, g, b = LindUF.PowerColor(self.unit)
+  f:SetScript("OnUpdate", function(self, elapsed)
+    f.update = f.update + elapsed
+    if f.update < .3 then return else f.update = 0 end
+    local power = UnitPower(self.unit)
+    local powerMax = UnitPowerMax(self.unit)
+    local r, g, b = LindUF.PowerColor(self.unit)
+    if power ~= self.power then
       if powerMax > 0 then
         self.Power:SetAlpha(1)
         self:SetAlpha(1)

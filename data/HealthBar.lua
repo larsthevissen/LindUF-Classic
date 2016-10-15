@@ -47,47 +47,47 @@ LindUF.HealthBar = function(self, p)
   f.Health:SetHeight(f:GetHeight()-4)
   f.Health:SetReverseFill(true)
 
-  f.health = 0
-  f.predict = 0
-  f.absorb = 0
+  f.health = -1
+  f.predict = -1
+  f.absorb = -1
+  f.update = 0
 
-  f:RegisterEvent("UNIT_HEALTH_FREQUENT")
-  f:RegisterEvent("VARIABLES_LOADED")
-  f:SetScript("OnEvent", function(self, event, unit, ...)
-    if unit == self.unit or event == "VARIABLES_LOADED" then
+  f:SetScript("OnUpdate", function(self, elapsed)
+
+    f.update = f.update + elapsed
+    if f.update < 0.3 then return else f.update = 0 end
+
+    local health = UnitHealth(self.unit)
+    local healthMax = UnitHealthMax(self.unit)
+    local predict = UnitGetIncomingHeals(self.unit)
+    local absorb = UnitGetTotalAbsorbs(self.unit)
+
+    local r, g, b = LindUF.ClassColor(f.unit)
+    self.Health:SetStatusBarColor(r, g, b, 1)
+
+    if self.health ~= health then
       local health = UnitHealth(self.unit)
       local healthMax = UnitHealthMax(self.unit)
       self.Health:SetMinMaxValues(0, healthMax)
       self.Health:SetValue(healthMax-health)
     end
+
+    if predict ~= self.predict or predict and self.health ~= health then
+      self.Predict:ClearAllPoints()
+      self.Predict:SetPoint("LEFT", self.Health, "LEFT", self.Health:GetWidth()/healthMax*health, 0)
+      self.Predict:SetMinMaxValues(0, healthMax)
+      self.Predict:SetValue(predict or 0)
+      self.predict = predict
+    end
+
+    if absorb ~= self.absorb then
+      self.Absorb:SetMinMaxValues(0, healthMax)
+      self.Absorb:SetValue(absorb)
+      self.absorb = absorb
+    end
+
+    self.health = health
   end)
-
-  f:SetScript("OnUpdate", function(self, ...)
-
-      local health = UnitHealth(self.unit)
-      local healthMax = UnitHealthMax(self.unit)
-      local predict = UnitGetIncomingHeals(self.unit)
-      local absorb = UnitGetTotalAbsorbs(self.unit)
-
-      local r, g, b = LindUF.ClassColor(f.unit)
-      self.Health:SetStatusBarColor(r, g, b, 1)
-
-      if predict ~= self.predict or predict and self.health ~= health then
-        self.Predict:ClearAllPoints()
-        self.Predict:SetPoint("LEFT", self.Health, "LEFT", self.Health:GetWidth()/healthMax*health, 0)
-        self.Predict:SetMinMaxValues(0, healthMax)
-        self.Predict:SetValue(predict or 0)
-        self.predict = predict
-      end
-
-      if absorb ~= self.absorb then
-        self.Absorb:SetMinMaxValues(0, healthMax)
-        self.Absorb:SetValue(absorb)
-        self.absorb = absorb
-      end
-
-      self.health = health
-    end)
 
   p.HealthBar = f
 end
