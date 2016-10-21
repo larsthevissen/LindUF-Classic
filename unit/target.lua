@@ -1,4 +1,8 @@
 -- target.lua START --
+
+TargetFrame:SetScript("OnEvent", nil);
+TargetFrame:Hide();
+
 local target = LindUF:UnitFrame("target")
 target:SetWidth(300)
 target:SetHeight(20)
@@ -17,4 +21,8 @@ LindUF:CastBar(target)
 target.CastBar:ClearAllPoints()
 target.CastBar:SetHeight(8)
 target.CastBar:SetPoint("TOP", target.PowerBar, "BOTTOM", 0, -3)
+
+LindUF:Name(target)
+target.Name:ClearAllPoints()
+target.Name:SetPoint("LEFT", target.HealthBar, "Left", 2, 0)
 -- target.lua END --

@@ -1,4 +1,7 @@
 -- CastBar.lua START --
+
+CastingBarFrame:UnregisterAllEvents()
+
 LindUF.CastBar = function(self, p)
   if not p then return end
   if p.CastBar then return end

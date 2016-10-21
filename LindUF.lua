@@ -1,8 +1,3 @@
-PlayerFrame:SetScript("OnEvent", nil);
-PlayerFrame:Hide();
-TargetFrame:SetScript("OnEvent", nil);
-TargetFrame:Hide();
-
 LindUF = {}
 LindUF.font = "Fonts\\2002.TTF"
 LindUF.border = "Interface\\Addons\\LindUF\\LindBorder.tga"

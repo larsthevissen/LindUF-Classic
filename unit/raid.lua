@@ -1,6 +1,6 @@
 -- raid.lua START --
 local raid = {}
-for i = 1, 40 do
+for i = 1, MAX_RAID_MEMBERS do
   raid[i] = LindUF:UnitFrame("raid"..i)
   raid[i]:SetWidth(100)
   raid[i]:SetHeight(20)
@@ -12,6 +12,10 @@ for i = 1, 40 do
   end
 
   LindUF:HealthBar(raid[i])
+
+  LindUF:Name(raid[i])
+  raid[i].Name:ClearAllPoints()
+  raid[i].Name:SetPoint("LEFT", raid[i].HealthBar, "Left", 2, 0)
 end
 
 -- raid.lua END --

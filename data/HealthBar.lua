@@ -19,6 +19,8 @@ LindUF.HealthBar = function(self, p)
   f:SetWidth(p:GetWidth())
   f:SetHeight(p:GetHeight())
   f:SetAllPoints(p)
+  f:SetFrameStrata("BACKGROUND")
+  f:SetFrameLevel(0)
 
   f.Absorb = CreateFrame("StatusBar", "lind."..p.unit..".Absorb", f)
   f.Absorb:SetStatusBarTexture("Interface\\AddOns\\LindUF\\LindBar.tga")
@@ -28,6 +30,8 @@ LindUF.HealthBar = function(self, p)
   f.Absorb:SetHeight(f:GetHeight()-4)
   f.Absorb:SetMinMaxValues(0, 1)
   f.Absorb:SetValue(0)
+  f.Absorb:SetFrameStrata("BACKGROUND")
+  f.Absorb:SetFrameLevel(2)
 
   f.Predict = CreateFrame("StatusBar", "lind."..p.unit..".Predict", f)
   f.Predict:SetStatusBarTexture("Interface\\AddOns\\LindUF\\LindBar.tga")
@@ -37,6 +41,8 @@ LindUF.HealthBar = function(self, p)
   f.Predict:SetHeight(f:GetHeight()-4)
   f.Predict:SetMinMaxValues(0, 1)
   f.Predict:SetValue(0)
+  f.Predict:SetFrameStrata("BACKGROUND")
+  f.Predict:SetFrameLevel(1)
 
   f.Health = CreateFrame("StatusBar", "lind."..p.unit..".Health", f)
   f.Health:SetStatusBarTexture("Interface\\AddOns\\LindUF\\LindBar.tga")
@@ -46,6 +52,8 @@ LindUF.HealthBar = function(self, p)
   f.Health:SetWidth(f:GetWidth()-4)
   f.Health:SetHeight(f:GetHeight()-4)
   f.Health:SetReverseFill(true)
+  f.Health:SetFrameStrata("BACKGROUND")
+  f.Health:SetFrameLevel(1)
 
   f.health = -1
   f.predict = -1
@@ -54,8 +62,8 @@ LindUF.HealthBar = function(self, p)
 
   f:SetScript("OnUpdate", function(self, elapsed)
 
-    f.update = f.update + elapsed
-    if f.update < 0.3 then return else f.update = 0 end
+    self.update = self.update + elapsed
+    if self.update < 0.1 then return else self.update = 0 end
 
     local health = UnitHealth(self.unit)
     local healthMax = UnitHealthMax(self.unit)
@@ -72,7 +80,7 @@ LindUF.HealthBar = function(self, p)
       self.Health:SetValue(healthMax-health)
     end
 
-    if predict ~= self.predict or predict and self.health ~= health then
+    if predict ~= self.predict or (predict and self.health ~= health) then
       self.Predict:ClearAllPoints()
       self.Predict:SetPoint("LEFT", self.Health, "LEFT", self.Health:GetWidth()/healthMax*health, 0)
       self.Predict:SetMinMaxValues(0, healthMax)

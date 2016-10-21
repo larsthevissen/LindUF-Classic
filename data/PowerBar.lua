@@ -14,6 +14,8 @@ LindUF.PowerBar = function(self, p)
   f:SetBackdropBorderColor(1, 1, 1, .8)
 
   f.unit = p.unit
+  f:SetFrameStrata("BACKGROUND")
+  f:SetFrameLevel(0)
 
   f:SetWidth(p:GetWidth())
   f:SetHeight(p:GetHeight())
@@ -25,13 +27,15 @@ LindUF.PowerBar = function(self, p)
   f.Power:SetPoint("CENTER", f, "CENTER", 0, 0)
   f.Power:SetWidth(f:GetWidth()-4)
   f.Power:SetHeight(f:GetHeight()-4)
+  f.Power:SetFrameStrata("BACKGROUND")
+  f.Power:SetFrameLevel(1)
 
   f.power = -1
   f.update = 0
 
   f:SetScript("OnUpdate", function(self, elapsed)
-    f.update = f.update + elapsed
-    if f.update < .3 then return else f.update = 0 end
+    self.update = self.update + elapsed
+    if self.update < 0.1 then return else self.update = 0 end
     local power = UnitPower(self.unit)
     local powerMax = UnitPowerMax(self.unit)
     local r, g, b = LindUF.PowerColor(self.unit)
@@ -51,3 +55,39 @@ LindUF.PowerBar = function(self, p)
 
   p.PowerBar = f
 end
+
+
+-- Name.lua START --
+LindUF.Name = function(self, p)
+  if not p then return end
+  if p.Name then return end
+
+  local f = CreateFrame("Frame", "lind."..p.unit..".Name", p)
+  f:SetWidth(1)
+  f:SetHeight(1)
+
+  f.Text = f:CreateFontString(nil, "OVERLAY")
+  f.Text:SetPoint("LEFT", 0, 0)
+  f.Text:SetFont(LindUF.font, 14, "OUTLINE")
+  f.Text:SetTextColor(1, 1, 1)
+  f:SetFrameStrata("BACKGROUND")
+  f:SetFrameLevel(3)
+  f.name = ""
+  f.realm = ""
+  f.unit = p.unit
+  f.update = 0
+  f:SetScript("OnUpdate", function(self, elapsed)
+    self.update = self.update + elapsed
+    if self.update < 0.3 then return else self.update = 0 end
+
+    name, realm = UnitName(self.unit)
+    if name ~= self.name then
+      self.Text:SetText(name)
+      self.name = name
+    end
+
+  end)
+  p.Name = f
+end
+
+-- Name.lua END --
