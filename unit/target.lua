@@ -1,7 +1,7 @@
 -- target.lua START --
 
-TargetFrame:SetScript("OnEvent", nil);
-TargetFrame:Hide();
+-- TargetFrame:SetScript("OnEvent", nil);
+-- TargetFrame:Hide();
 
 local target = LindUF:UnitFrame("target")
 target:SetWidth(300)
