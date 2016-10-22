@@ -59,11 +59,23 @@ LindUF.UnitFrame = function(self, unit)
     ToggleDropDownMenu(1, nil, f.DropDown, "cursor", 0, 0)
   end
 
-
-
-
   f:SetScript("OnUpdate", function(self, ...)
-
+    local IconIndex = GetRaidTargetIndex(self.unit)
+    if IconIndex then
+      if not self.raidIcon then
+        self.raidIcon = CreateFrame("Frame", self.unit.."Icon", self)
+        self.raidIcon:SetWidth(32)
+        self.raidIcon:SetHeight(32)
+        self.raidIcon:SetPoint("CENTER", self, "CENTER", 0, 10)
+        self.raidIcon.texture = self.raidIcon:CreateTexture(nil, "BACKGROUND")
+        self.raidIcon.texture:SetAllPoints(self.raidIcon)
+      end
+      self.raidIcon.texture:SetTexture("Interface\\TargetingFrame\\UI-RaidTargetingIcon_"..IconIndex..".PNG")
+    else
+      if self.raidIcon then
+        self.raidIcon.texture:SetTexture(nil)
+      end
+    end
   end)
   return f
 end

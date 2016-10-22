@@ -1,7 +1,5 @@
--- PlayerFrame:SetScript("OnEvent", nil);
--- PlayerFrame:Hide();
-
-
+PlayerFrame:SetScript("OnEvent", nil);
+PlayerFrame:Hide();
 
 LindUF.Player = LindUF:UnitFrame("player")
 LindUF.Player:SetWidth(300)
@@ -27,4 +25,4 @@ LindUF.Player.CastBar:SetPoint("TOP", LindUF.Player.PowerBar, "BOTTOM", 0, -3)
 
 LindUF:Name(LindUF.Player)
 LindUF.Player.Name:ClearAllPoints()
-LindUF.Player.Name:SetPoint("LEFT", LindUF.Player.HealthBar, "Left", 2, 0)
+LindUF.Player.Name:SetPoint("LEFT", LindUF.Player.HealthBar, "LEFT", 2, 0)
