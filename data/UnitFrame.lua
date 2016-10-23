@@ -9,6 +9,13 @@ LindUF.DropDown = function(self, p)
         info.hasArrow = true
         info.notCheckable = true
         UIDropDownMenu_AddButton(info)
+
+        if p.unit == pet then
+          info.text = "Dismiss Pet"
+          info.hasArrow = false
+          info.func = self.PetDismiss
+          UIDropDownMenu_AddButton(info)
+        end
       end
       if level == 2 then
         local index = GetRaidTargetIndex(p.unit)
@@ -33,6 +40,10 @@ LindUF.DropDown = function(self, p)
   f.SetMarker = function(self, value)
     SetRaidTarget(p.unit, value)
     CloseDropDownMenus()
+  end
+
+  f.PetDismiss = function(self)
+    PetDismiss()
   end
 
   p.DropDown = f
@@ -76,6 +87,15 @@ LindUF.UnitFrame = function(self, unit)
         self.raidIcon.texture:SetTexture(nil)
       end
     end
+  end)
+  f:SetScript("OnEnter", function(self, motion)
+    GameTooltip_SetDefaultAnchor(GameTooltip, UIParent)
+    GameTooltip:SetUnit(self.unit)
+    GameTooltip:Show()
+  end)
+
+  f:SetScript("OnLeave", function(self, motion)
+    GameTooltip:Hide()
   end)
   return f
 end

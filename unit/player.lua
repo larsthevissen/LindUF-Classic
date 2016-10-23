@@ -7,9 +7,6 @@ LindUF.Player:SetHeight(20)
 LindUF.Player:ClearAllPoints()
 LindUF.Player:SetPoint("RIGHT", UIParent, "CENTER", -200, -200)
 
-PlayerFrame:ClearAllPoints()
-PlayerFrame:SetPoint("CENTER", LindUF.Player, "CENTER", 0, 0)
-
 LindUF:HealthBar(LindUF.Player)
 LindUF:PowerBar(LindUF.Player)
 
@@ -26,3 +23,20 @@ LindUF.Player.CastBar:SetPoint("TOP", LindUF.Player.PowerBar, "BOTTOM", 0, -3)
 LindUF:Name(LindUF.Player)
 LindUF.Player.Name:ClearAllPoints()
 LindUF.Player.Name:SetPoint("LEFT", LindUF.Player.HealthBar, "LEFT", 2, 0)
+
+
+-- pet.lua START --
+LindUF.Pet = LindUF:UnitFrame("pet")
+LindUF.Pet:SetWidth(150)
+LindUF.Pet:SetHeight(20)
+LindUF.Pet:ClearAllPoints()
+LindUF.Pet:SetPoint("BOTTOMLEFT", LindUF.Player, "TOPLEFT", 0, 10)
+
+LindUF:HealthBar(LindUF.Pet)
+
+LindUF:Name(LindUF.Pet)
+LindUF.Pet.Name:ClearAllPoints()
+LindUF.Pet.Name:SetPoint("LEFT", LindUF.Pet.HealthBar, "LEFT", 2, 0)
+
+
+-- pet.lua END --
