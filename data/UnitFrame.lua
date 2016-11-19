@@ -1,5 +1,6 @@
 -- DROPDOWN START --
-LindUF.DropDown = function(self, p)
+-- LindUF.DropDown = function(self, p)
+function LindUF:DropDown(p)
   f = CreateFrame("FRAME", "ldd."..p.unit, p, "UIDropDownMenuTemplate")
 
   UIDropDownMenu_Initialize(f, function(self, level, menuList)
@@ -9,13 +10,6 @@ LindUF.DropDown = function(self, p)
         info.hasArrow = true
         info.notCheckable = true
         UIDropDownMenu_AddButton(info)
-
-        if p.unit == pet then
-          info.text = "Dismiss Pet"
-          info.hasArrow = false
-          info.func = self.PetDismiss
-          UIDropDownMenu_AddButton(info)
-        end
       end
       if level == 2 then
         local index = GetRaidTargetIndex(p.unit)
@@ -42,8 +36,8 @@ LindUF.DropDown = function(self, p)
     CloseDropDownMenus()
   end
 
-  f.PetDismiss = function(self)
-    PetDismiss()
+  f.LeaveParty = function(self)
+    LeaveParty()
   end
 
   p.DropDown = f
@@ -51,7 +45,14 @@ end
 
 -- -- DROPDOWN END --
 
-LindUF.UnitFrame = function(self, unit)
+-- LindUF.UnitFrame = function(self, unit)
+function LindUF:UnitFrame(unit)
+
+  local lars = {}
+  lars.width = 100
+  lars.height = 30
+  lars.SetWidth = function(self, w) self.width = w end
+  lars.GetWidth = function(self) return self.width end
 
   local f = CreateFrame("Button", "Lind."..unit, UIParent, "SecureUnitButtonTemplate")
   f.unit = unit
@@ -65,22 +66,35 @@ LindUF.UnitFrame = function(self, unit)
   LindUF:DropDown(f)
   RegisterUnitWatch(f)
 
-  f.menu = function(self, unit, button, actionType)
-    -- ToggleDropDownMenu(1, nil, PlayerFrameDropDown, self, 0, 0)
-    ToggleDropDownMenu(1, nil, f.DropDown, "cursor", 0, 0)
+  if f.unit == "player" then
+    f.menu = function(self, unit, button, actionType)
+      ToggleDropDownMenu(1, nil, PlayerFrameDropDown, self, 0, 0)
+    end
+  elseif f.unit == "target" then
+    f.menu = function(self, unit, button, actionType)
+      ToggleDropDownMenu(1, nil, TargetFrameDropDown, self, 0, 0)
+    end
+  elseif f.unit == "pet" then
+    f.menu = function(self, unit, button, actionType)
+      ToggleDropDownMenu(1, nil, PetFrameDropDown, self, 0, 0)
+    end
+  else
+    f.menu = function(self, unit, button, actionType)
+      ToggleDropDownMenu(1, nil, f.DropDown, "cursor", 0, 0)
+    end
   end
+
+  f.raidIcon = CreateFrame("Frame", f.unit.."Icon", f)
+  f.raidIcon:SetWidth(32)
+  f.raidIcon:SetHeight(32)
+  f.raidIcon:SetPoint("CENTER", f, "CENTER", 0, 10)
+  f.raidIcon.texture = f.raidIcon:CreateTexture(nil, "BACKGROUND")
+  f.raidIcon.texture:SetAllPoints(f.raidIcon)
+  f.raidIcon:SetAlpha(.65)
 
   f:SetScript("OnUpdate", function(self, ...)
     local IconIndex = GetRaidTargetIndex(self.unit)
     if IconIndex then
-      if not self.raidIcon then
-        self.raidIcon = CreateFrame("Frame", self.unit.."Icon", self)
-        self.raidIcon:SetWidth(32)
-        self.raidIcon:SetHeight(32)
-        self.raidIcon:SetPoint("CENTER", self, "CENTER", 0, 10)
-        self.raidIcon.texture = self.raidIcon:CreateTexture(nil, "BACKGROUND")
-        self.raidIcon.texture:SetAllPoints(self.raidIcon)
-      end
       self.raidIcon.texture:SetTexture("Interface\\TargetingFrame\\UI-RaidTargetingIcon_"..IconIndex..".PNG")
     else
       if self.raidIcon then

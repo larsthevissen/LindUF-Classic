@@ -3,6 +3,8 @@ LindUF.font = "Fonts\\2002.TTF"
 LindUF.border = "Interface\\Addons\\LindUF\\LindBorder.tga"
 LindUF.bg = "Interface\\Addons\\LindUF\\LindBar.tga"
 
+LindUF.Units = {}
+
 LindUF.PowerColor = function(unit)
   local powerType, powerToken, altR, altG, altB = UnitPowerType(unit)
   local info = PowerBarColor[powerToken]

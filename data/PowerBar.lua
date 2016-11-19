@@ -1,4 +1,5 @@
-LindUF.PowerBar = function(self, p)
+-- LindUF.PowerBar = function(self, p)
+function LindUF:PowerBar(p)
   if not p then return end
   if p.PowerBar then return end
 
@@ -58,7 +59,8 @@ end
 
 
 -- Name.lua START --
-LindUF.Name = function(self, p)
+-- LindUF.Name = function(self, p)
+function LindUF:Name(p)
   if not p then return end
   if p.Name then return end
 

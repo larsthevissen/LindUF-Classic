@@ -1,6 +1,7 @@
 PlayerFrame:SetScript("OnEvent", nil);
 PlayerFrame:Hide();
 
+
 LindUF.Player = LindUF:UnitFrame("player")
 LindUF.Player:SetWidth(300)
 LindUF.Player:SetHeight(20)
@@ -19,10 +20,6 @@ LindUF:CastBar(LindUF.Player)
 LindUF.Player.CastBar:ClearAllPoints()
 LindUF.Player.CastBar:SetHeight(8)
 LindUF.Player.CastBar:SetPoint("TOP", LindUF.Player.PowerBar, "BOTTOM", 0, -3)
-
-LindUF:Name(LindUF.Player)
-LindUF.Player.Name:ClearAllPoints()
-LindUF.Player.Name:SetPoint("LEFT", LindUF.Player.HealthBar, "LEFT", 2, 0)
 
 
 -- pet.lua START --

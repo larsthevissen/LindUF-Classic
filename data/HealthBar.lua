@@ -1,5 +1,5 @@
-LindUF.HealthBar = function(self, p)
-
+-- LindUF.HealthBar = function(self, p)
+function LindUF:HealthBar(p)
   if not p then return end
   if p.HealthBar then return end
 

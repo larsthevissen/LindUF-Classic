@@ -1,5 +1,5 @@
-## Interface: 70000
-## Version: 0.4.22
+## Interface: 70100
+## Version: 0.5.3
 ## Title: LindUF
 ## Notes: Unit Frame Replacement
 ## Author: Lars Thevissen
