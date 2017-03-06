@@ -7,7 +7,7 @@ local target = LindUF:UnitFrame("target")
 target:SetWidth(300)
 target:SetHeight(20)
 target:ClearAllPoints()
-target:SetPoint("LEFT", UIParent, "CENTER", 200, -200)
+target:SetPoint("LEFT", UIParent, "CENTER", 200, -100)
 
 LindUF:HealthBar(target)
 LindUF:PowerBar(target)
