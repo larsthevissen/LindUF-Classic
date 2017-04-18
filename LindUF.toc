@@ -9,7 +9,11 @@ data\UnitFrame.lua
 data\HealthBar.lua
 data\PowerBar.lua
 data\CastBar.lua
+text\Name.lua
+text\Health.lua
 unit\player.lua
 unit\target.lua
 unit\targettarget.lua
 unit\raid.lua
+unit\boss.lua
+unit\pet.lua
