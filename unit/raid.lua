@@ -21,6 +21,7 @@ for i = 1, MAX_RAID_MEMBERS do
   raid[i].raidIcon:SetWidth(16)
   raid[i].raidIcon:SetHeight(16)
   raid[i].raidIcon:SetPoint("CENTER", 0, 0)
+  
 
 end
 

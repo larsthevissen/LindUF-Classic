@@ -11,7 +11,7 @@ function LindUF:HealthBar(p)
       tile = false, tileSize = 0, edgeSize = 8,
       insets = { left = 0, right = 0, top = 0, bottom = 0 }
     })
-  f:SetBackdropColor(.2, .2, .2, .8);
+  f:SetBackdropColor(.2, .2, .2, .4);
   f:SetBackdropBorderColor(1, 1, 1, .8)
 
   f.unit = p.unit
@@ -46,8 +46,7 @@ function LindUF:HealthBar(p)
 
   f.Health = CreateFrame("StatusBar", "lind."..p.unit..".Health", f)
   f.Health:SetStatusBarTexture("Interface\\AddOns\\LindUF\\LindBar.tga")
-  local r, g, b = LindUF.ClassColor(f.unit)
-  f.Health:SetStatusBarColor(r, g, b, 1)
+  f.Health:SetStatusBarColor(.8, .8, .8, 1)
   f.Health:SetPoint("CENTER", f, "CENTER", 0, 0)
   f.Health:SetWidth(f:GetWidth()-4)
   f.Health:SetHeight(f:GetHeight()-4)
@@ -70,8 +69,8 @@ function LindUF:HealthBar(p)
       local predict = UnitGetIncomingHeals(self.unit)
       local absorb = UnitGetTotalAbsorbs(self.unit)
 
-      local r, g, b = LindUF.ClassColor(f.unit)
-      self.Health:SetStatusBarColor(r, g, b, 1)
+--      local r, g, b = LindUF.ClassColor(f.unit)
+--      self.Health:SetStatusBarColor(r, g, b, 1)
 
       if self.health ~= health then
         local health = UnitHealth(self.unit)

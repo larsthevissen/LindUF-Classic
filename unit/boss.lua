@@ -12,5 +12,6 @@ for i = 1, 5 do
   LindUF:Name(boss[i])
   boss[i].Name:ClearAllPoints()
   boss[i].Name:SetPoint("LEFT", boss[i].HealthBar, "Left", 2, 0)
+
 end
 -- boss.lua END --

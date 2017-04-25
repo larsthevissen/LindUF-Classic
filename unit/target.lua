@@ -25,4 +25,8 @@ target.CastBar:SetPoint("TOP", target.PowerBar, "BOTTOM", 0, -3)
 LindUF:Name(target)
 target.Name:ClearAllPoints()
 target.Name:SetPoint("LEFT", target.HealthBar, "LEFT", 2, 0)
+
+LindUF:HealthText(target)
+target.HealthText:ClearAllPoints()
+target.HealthText:SetPoint("RIGHT", target.HealthBar, "RIGHT", 2, 0)
 -- target.lua END --

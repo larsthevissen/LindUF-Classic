@@ -20,3 +20,7 @@ LindUF:CastBar(LindUF.Player)
 LindUF.Player.CastBar:ClearAllPoints()
 LindUF.Player.CastBar:SetHeight(8)
 LindUF.Player.CastBar:SetPoint("TOP", LindUF.Player.PowerBar, "BOTTOM", 0, -3)
+
+LindUF:HealthText(LindUF.Player)
+LindUF.Player.HealthText:ClearAllPoints()
+LindUF.Player.HealthText:SetPoint("RIGHT", LindUF.Player.HealthBar, "RIGHT", 2, 0)

@@ -11,7 +11,7 @@ function LindUF:PowerBar(p)
       tile = false, tileSize = 0, edgeSize = 8,
       insets = { left = 0, right = 0, top = 0, bottom = 0 }
     })
-  f:SetBackdropColor(.2, .2, .2, .8);
+  f:SetBackdropColor(.2, .2, .2, .4);
   f:SetBackdropBorderColor(1, 1, 1, .8)
 
   f.unit = p.unit
