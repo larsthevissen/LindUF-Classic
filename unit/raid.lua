@@ -21,7 +21,20 @@ for i = 1, MAX_RAID_MEMBERS do
   raid[i].raidIcon:SetWidth(16)
   raid[i].raidIcon:SetHeight(16)
   raid[i].raidIcon:SetPoint("CENTER", 0, 0)
-  
+
+
+  raid[i].HealthBar:RegisterEvent("GROUP_ROSTER_UPDATE")
+  raid[i].HealthBar:SetScript("OnEvent", function(self, ...)
+    role = UnitGroupRolesAssigned(self.unit)
+    if role == "TANK" then
+      self:SetBackdropBorderColor(1,0,0,.8)
+    elseif role == "HEALER" then
+      self:SetBackdropBorderColor(0,1,0,.8)
+    else
+      self:SetBackdropBorderColor(1,1,1,.8)
+    end
+  end)
+
 
 end
 
