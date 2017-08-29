@@ -48,12 +48,6 @@ end
 -- LindUF.UnitFrame = function(self, unit)
 function LindUF:UnitFrame(unit)
 
-  local lars = {}
-  lars.width = 100
-  lars.height = 30
-  lars.SetWidth = function(self, w) self.width = w end
-  lars.GetWidth = function(self) return self.width end
-
   local f = CreateFrame("Button", "Lind."..unit, UIParent, "SecureUnitButtonTemplate")
   f.unit = unit
   f:SetWidth(100)
