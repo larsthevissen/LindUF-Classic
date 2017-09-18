@@ -3,10 +3,10 @@ PlayerFrame:Hide();
 
 
 LindUF.Player = LindUF:UnitFrame("player")
-LindUF.Player:SetWidth(300)
+LindUF.Player:SetWidth(345)
 LindUF.Player:SetHeight(20)
 LindUF.Player:ClearAllPoints()
-LindUF.Player:SetPoint("RIGHT", UIParent, "CENTER", -200, -100)
+LindUF.Player:SetPoint("CENTER", UIParent, "CENTER", 0, -180)
 
 LindUF:HealthBar(LindUF.Player)
 LindUF:PowerBar(LindUF.Player)

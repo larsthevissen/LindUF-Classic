@@ -46,7 +46,7 @@ function LindUF:HealthBar(p)
 
   f.Health = CreateFrame("StatusBar", "lind."..p.unit..".Health", f)
   f.Health:SetStatusBarTexture("Interface\\AddOns\\LindUF\\LindBar.tga")
-  f.Health:SetStatusBarColor(.8, .8, .8, 1)
+  f.Health:SetStatusBarColor(.8, .2, .2, 1)
   f.Health:SetPoint("CENTER", f, "CENTER", 0, 0)
   f.Health:SetWidth(f:GetWidth()-4)
   f.Health:SetHeight(f:GetHeight()-4)

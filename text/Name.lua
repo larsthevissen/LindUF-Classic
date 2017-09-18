@@ -7,6 +7,7 @@ function LindUF:Name(p)
   local f = CreateFrame("Frame", "lind."..p.unit..".Name", p)
   f:SetWidth(1)
   f:SetHeight(1)
+  f.length = 30
 
   f.Text = f:CreateFontString(nil, "OVERLAY")
   f.Text:SetPoint("LEFT", 0, 0)
@@ -23,6 +24,9 @@ function LindUF:Name(p)
     if self.update < 0.3 then return else self.update = 0 end
 
     name, realm = UnitName(self.unit)
+    if (name ~= nil and name ~= '') then
+      name = string.sub(name, 1, self.length)
+    end
     if name ~= self.name then
       self.Text:SetText(name)
       self.name = name
