@@ -22,7 +22,7 @@ function LindUF:CastBar(p)
   f.text:SetTextColor(1, 1, 1)
 
   f:SetScript("OnUpdate", function(self, ...)
-    local name, _, _, _, startTime, endTime, _, _, interrupt = UnitCastingInfo(self.unit)
+    local name, _, _, startTime, endTime, _, _, interrupt = UnitCastingInfo(self.unit)
     if(name) then
       local start = 0
       local finish = endTime - startTime
@@ -32,7 +32,7 @@ function LindUF:CastBar(p)
       return
     end
 
-    name, _, _, _, startTime, endTime, _, interrupt = UnitChannelInfo(self.unit)
+    name, _, _, startTime, endTime, _, interrupt = UnitChannelInfo(self.unit)
     if(name) then
       local start = 0
       local finish = endTime - startTime
