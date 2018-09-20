@@ -25,6 +25,33 @@ LindUF.ClassColor = function(unit)
   return color.r, color.g ,color.b
 end
 
+function LindUF:Texture(frame)
+  tx = frame:CreateTexture()
+  tx:SetAllPoints(frame)
+  tx:SetColorTexture(.3, .3, .3, .3)
+  return tx
+end
+
+function LindUF:LindBar(p, n)
+  local f = {}
+  f.bg = CreateFrame("Frame", p.unit..n, p)
+  f.bg:SetWidth(32)
+  f.bg:SetHeight(32)
+  f.bg:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+  f.bgtx = LindUF:Texture(f.bg)
+  f.bg.texture = f.bgtx
+  f.bg:SetFrameStrata("BACKGROUND")
+  f.bg:SetFrameLevel(0)
+  f.bar = CreateFrame("StatusBar", p.unit..n.."bar", f.bg)
+  f.bar:SetAllPoints(f.bg)
+  f.bar:SetMinMaxValues(0,1)
+  f.bar:SetValue(1)
+  f.bar:SetFrameStrata("BACKGROUND")
+  f.bar:SetFrameLevel(1)
+  f.bar.tx = LindUF:Texture(f.bar)
+  f.bar:SetStatusBarTexture(f.bar.tx)
+  return f
+end
 -- reposition the alternative Power Bar
 PlayerPowerBarAlt:ClearAllPoints()
 PlayerPowerBarAlt:SetParent("UIParent")
@@ -32,3 +59,5 @@ PlayerPowerBarAlt:SetPoint("TOP", UIParent, "TOP", 0, -30)
 PlayerPowerBarAlt:SetScale(0.75)
 PlayerPowerBarAlt:SetMovable(true)
 PlayerPowerBarAlt:SetUserPlaced(true)
+
+
