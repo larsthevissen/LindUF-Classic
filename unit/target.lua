@@ -58,7 +58,7 @@ LindUF.Target.Name:SetPoint("BOTTOMLEFT", LindUF.Target, "TOPLEFT", 11, 2)
 
 LindUF:HealthText(LindUF.Target)
 LindUF.Target.HealthText:ClearAllPoints()
-LindUF.Target.HealthText:SetPoint("LEFT", LindUF.Target.HealthBar.bg, "RIGHT", 2, 0)
+LindUF.Target.HealthText:SetPoint("LEFT", LindUF.Target.HealthBar, "RIGHT", 2, 0)
 
 local lol = CreateFrame("Frame", "target30", shi)
 lol:SetWidth(1)
