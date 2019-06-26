@@ -4,7 +4,7 @@ local f = LindUF:UnitFrame("player")
 f:ClearAllPoints()
 f:SetWidth(300)
 f:SetHeight(15)
-f:SetPoint("RIGHT", UIParent, "CENTER", -100, -100)
+f:SetPoint("RIGHT", UIParent, "CENTER", -100, -150)
 
 
 LindUF:health(f)
@@ -13,7 +13,7 @@ f.HealthBar:SetReverseFill(true)
 f.HealthBar:ClearAllPoints()
 f.HealthBar:SetWidth(300)
 f.HealthBar:SetHeight(15)
-f.HealthBar:SetPoint("RIGHT", UIParent, "CENTER", -100, -100)
+f.HealthBar:SetPoint("RIGHT", UIParent, "CENTER", -100, -150)
 
 LindUF:power(f)
 f.PowerBar.Texture:SetColorTexture(1,0,0,.5)

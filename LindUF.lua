@@ -3,7 +3,7 @@ LindUF.font = "Fonts\\2002.TTF"
 LindUF.border = "Interface\\Addons\\LindUF\\LindBorder.tga"
 LindUF.bg = "Interface\\Addons\\LindUF\\LindBar.tga"
 
-LindUF.Units = {}
+LindUF.Units = {} -- ???
 
 LindUF.PowerColor = function(unit)
   local powerType, powerToken, altR, altG, altB = UnitPowerType(unit)
@@ -82,5 +82,3 @@ PlayerPowerBarAlt:SetPoint("TOP", UIParent, "TOP", 0, -30)
 PlayerPowerBarAlt:SetScale(0.75)
 PlayerPowerBarAlt:SetMovable(true)
 PlayerPowerBarAlt:SetUserPlaced(true)
-
-
