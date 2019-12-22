@@ -36,17 +36,29 @@ function LindUF:LindBar(p, n)
   local f = CreateFrame("Statusbar", p.unit..n, p)
   f.Background = CreateFrame("Frame", p.unit..n.."Background", p)
 
+  f.Background:SetBackdrop( {
+    bgFile = "Interface\\AddOns\\LindUF\\LindBar.tga",
+    edgeFile = "Interface\\AddOns\\LindUF\\LindBorder.tga",
+    tile = false, tileSize = 0, edgeSize = 8,
+    insets = { left = 0, right = 0, top = 0, bottom = 0 }
+  })
+  f.Background:SetBackdropColor(.2, .2, .2, .1);
+  f.Background:SetBackdropBorderColor(1, 1, 1, .8)
+
+
   f.Texture = LindUF:Texture(f)
   f:SetStatusBarTexture(f.Texture)
-  f.BackgroundTexture = LindUF:Texture(f.Background)
-  f.Background.texture = f.BackgroundTexture
 
   f:SetFrameStrata("BACKGROUND")
-  f:SetFrameLevel(1)
+  f:SetFrameLevel(0)
   f.Background:SetFrameStrata("BACKGROUND")
-  f.Background:SetFrameLevel(0)
+  f.Background:SetFrameLevel(1)
 
   f.Background:SetAllPoints(f)
+  -- f.Background:SetPoint("TOPLEFT", f, "TOPLEFT", -1, 1)
+  -- f.Background:SetPoint("TOPRIGHT", f, "TOPRIGHT", 1, 1)
+  -- f.Background:SetPoint("BOTTOMLEFT", f, "BOTTOMLEFT", -1, -1)
+  -- f.Background:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", 1, -1)
 
   f:SetMinMaxValues(0,1)
   f:SetValue(1)
@@ -54,31 +66,11 @@ function LindUF:LindBar(p, n)
   return f
 end
 
--- function LindUF:LindBar(p, n)
---   local f = {}
---   f.bg = CreateFrame("Frame", p.unit..n, p)
---   f.bg:SetWidth(32)
---   f.bg:SetHeight(32)
---   f.bg:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
---   f.bgtx = LindUF:Texture(f.bg)
---   -- f.bg.texture = f.bgtx
---   f.bg:SetFrameStrata("BACKGROUND")
---   f.bg:SetFrameLevel(0)
---   f.bar = CreateFrame("StatusBar", p.unit..n.."bar", f.bg)
---   f.bar:SetAllPoints(f.bg)
---   f.bar:SetMinMaxValues(0,1)
---   f.bar:SetValue(1)
---   f.bar:SetFrameStrata("BACKGROUND")
---   f.bar:SetFrameLevel(1)
---   f.bar.tx = LindUF:Texture(f.bar)
---   f.bar.tx:SetColorTexture(1,0,0,.5)
---   f.bar:SetStatusBarTexture(f.bar.tx)
---   return f
--- end
+
 -- reposition the alternative Power Bar
-PlayerPowerBarAlt:ClearAllPoints()
-PlayerPowerBarAlt:SetParent("UIParent")
-PlayerPowerBarAlt:SetPoint("TOP", UIParent, "TOP", 0, -30)
-PlayerPowerBarAlt:SetScale(0.75)
-PlayerPowerBarAlt:SetMovable(true)
-PlayerPowerBarAlt:SetUserPlaced(true)
+-- PlayerPowerBarAlt:ClearAllPoints()
+-- PlayerPowerBarAlt:SetParent("UIParent")
+-- PlayerPowerBarAlt:SetPoint("TOP", UIParent, "TOP", 0, -30)
+-- PlayerPowerBarAlt:SetScale(0.75)
+-- PlayerPowerBarAlt:SetMovable(true)
+-- PlayerPowerBarAlt:SetUserPlaced(true)

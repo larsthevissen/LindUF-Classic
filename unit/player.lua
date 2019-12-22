@@ -9,7 +9,6 @@ f:SetPoint("RIGHT", UIParent, "CENTER", -100, -150)
 
 LindUF:health(f)
 f.HealthBar.Texture:SetColorTexture(1,0,0,.7)
-f.HealthBar:SetReverseFill(true)
 f.HealthBar:ClearAllPoints()
 f.HealthBar:SetWidth(300)
 f.HealthBar:SetHeight(15)
@@ -19,8 +18,28 @@ LindUF:power(f)
 f.PowerBar.Texture:SetColorTexture(1,0,0,.5)
 f.PowerBar:ClearAllPoints()
 f.PowerBar:SetWidth(300)
-f.PowerBar:SetHeight(5)
-f.PowerBar:SetPoint("TOP", f.HealthBar, "BOTTOM", 0, -1)
+f.PowerBar:SetHeight(10)
+f.PowerBar:SetPoint("TOP", f.HealthBar, "BOTTOM", 0, -5)
+f.PowerBar:SetReverseFill(true)
+
+
+LindUF:HealthText(f)
+f.HealthText:ClearAllPoints()
+f.HealthText.Text:ClearAllPoints()
+f.HealthText:SetPoint("RIGHT", f.HealthBar, "RIGHT", 2, 0)
+f.HealthText.Text:SetPoint("LEFT", f.HealthText, "RIGHT", 0, 0)
+
+LindUF:PowerText(f)
+f.PowerText:ClearAllPoints()
+f.PowerText.Text:ClearAllPoints()
+f.PowerText:SetPoint("RIGHT", f.PowerBar, "RIGHT", 2, 0)
+f.PowerText.Text:SetPoint("LEFT", f.PowerText, "RIGHT", 0, 0)
+
+LindUF:Name(f)
+f.Name:ClearAllPoints()
+f.Name:SetPoint("RIGHT", f.HealthBar, "LEFT", -2, 0)
+f.Name.Text:ClearAllPoints()
+f.Name.Text:SetPoint("RIGHT", 0, 0)
 
 
 -- f.PowerBar.Texture:SetVertexOffset(3, -5, 0)
@@ -37,35 +56,5 @@ f.PowerBar:SetPoint("TOP", f.HealthBar, "BOTTOM", 0, -1)
 LindUF.Player = f
 
 
--- LindUF.Player = LindUF:UnitFrame("player")
--- LindUF.Player:SetWidth(300)
--- LindUF.Player:SetHeight(20)
--- LindUF.Player:ClearAllPoints()
--- LindUF.Player:SetPoint("RIGHT", UIParent, "CENTER", -150, -50)
-
--- LindUF:HealthBar(LindUF.Player)
--- LindUF:PowerBar(LindUF.Player)
-
--- --LindUF.Player.HealthBar:SetVertexOffset(2,0,3)
-
--- LindUF.Player.PowerBar:SetHeight(10)
--- LindUF.Player.PowerBar:ClearAllPoints()
--- LindUF.Player.PowerBar:SetPoint("TOP", LindUF.Player.HealthBar, "BOTTOM", 0, -3)
--- LindUF.Player.PowerBar.Power:SetHeight(6)
-
-LindUF:CastBar(LindUF.Player)
-LindUF.Player.CastBar:ClearAllPoints()
-LindUF.Player.CastBar:SetHeight(8)
-LindUF.Player.CastBar:SetWidth(300)
-LindUF.Player.CastBar:SetReverseFill(true)
-LindUF.Player.CastBar:SetPoint("TOP", LindUF.Player, "BOTTOM", 0, -20)
-
--- LindUF:HealthText(LindUF.Player)
--- LindUF.Player.HealthText:ClearAllPoints()
--- LindUF.Player.HealthText:SetPoint("RIGHT", LindUF.Player.HealthBar, "RIGHT", 2, 0)
-
-
-
-
-PlayerFrame:SetScript("OnEvent", nil);
-PlayerFrame:Hide();
+-- PlayerFrame:SetScript("OnEvent", nil);
+-- PlayerFrame:Hide();

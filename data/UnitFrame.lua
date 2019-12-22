@@ -1,5 +1,4 @@
 -- DROPDOWN START --
--- LindUF.DropDown = function(self, p)
 function LindUF:DropDown(p)
   f = CreateFrame("FRAME", "ldd."..p.unit, p, "UIDropDownMenuTemplate")
 
