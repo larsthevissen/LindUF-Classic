@@ -12,7 +12,6 @@ function LindUF:Name(p)
   f.Text = f:CreateFontString(nil, "OVERLAY")
   f.Text:SetPoint("LEFT", 0, 0)
   f.Text:SetFont(LindUF.font, 14, "OUTLINE")
-  f.Text:SetTextColor(1, 1, 1)
   f:SetFrameStrata("BACKGROUND")
   f:SetFrameLevel(3)
   f.name = ""
@@ -20,6 +19,8 @@ function LindUF:Name(p)
   f.unit = p.unit
   f.update = 0
   f:SetScript("OnUpdate", function(self, elapsed)
+    local r, g, b = LindUF.ClassColor(p.unit)
+    f.Text:SetTextColor(r, g, b)
     self.update = self.update + elapsed
     if self.update < 0.3 then return else self.update = 0 end
 

@@ -1,6 +1,6 @@
 -- CastBar.lua START --
 
-CastingBarFrame:UnregisterAllEvents()
+-- CastingBarFrame:UnregisterAllEvents()
 
 -- LindUF.CastBar = function(self, p)
 function LindUF:CastBar(p)

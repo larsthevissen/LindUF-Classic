@@ -13,6 +13,7 @@ f.HealthBar:SetWidth(300)
 f.HealthBar:SetHeight(15)
 f.HealthBar:SetPoint("LEFT", UIParent, "CENTER", 100, -150)
 f.HealthBar:SetReverseFill(true)
+f.HealthBar:RegisterEvent("UNIT_TARGET")
 
 LindUF:power(f)
 f.PowerBar.Texture:SetColorTexture(1,0,0,.5)

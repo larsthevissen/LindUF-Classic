@@ -42,7 +42,7 @@ function LindUF:LindBar(p, n)
     tile = false, tileSize = 0, edgeSize = 8,
     insets = { left = 0, right = 0, top = 0, bottom = 0 }
   })
-  f.Background:SetBackdropColor(.2, .2, .2, .1);
+  f.Background:SetBackdropColor(.2, .2, .2, .3);
   f.Background:SetBackdropBorderColor(1, 1, 1, .8)
 
 
