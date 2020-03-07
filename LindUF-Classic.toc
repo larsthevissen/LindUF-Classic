@@ -1,6 +1,6 @@
 ## Interface: 11302
 ## Version: Alpha
-## Title: LindUF
+## Title: LindUF Classic
 ## Notes: Unit Frame Replacement
 ## Author: Lars Thevissen
 

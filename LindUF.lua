@@ -1,7 +1,7 @@
 LindUF = {}
 LindUF.font = "Fonts\\2002.TTF"
-LindUF.border = "Interface\\Addons\\LindUF\\LindBorder.tga"
-LindUF.bg = "Interface\\Addons\\LindUF\\LindBar.tga"
+LindUF.border = "Interface\\Addons\\LindUF-Classic\\LindBorder.tga"
+LindUF.bg = "Interface\\Addons\\LindUF-Classic\\LindBar.tga"
 
 LindUF.Units = {} -- ???
 
@@ -37,8 +37,8 @@ function LindUF:LindBar(p, n)
   f.Background = CreateFrame("Frame", p.unit..n.."Background", p)
 
   f.Background:SetBackdrop( {
-    bgFile = "Interface\\AddOns\\LindUF\\LindBar.tga",
-    edgeFile = "Interface\\AddOns\\LindUF\\LindBorder.tga",
+    bgFile = LindUF.bg,
+    edgeFile = LindUF.border,
     tile = false, tileSize = 0, edgeSize = 8,
     insets = { left = 0, right = 0, top = 0, bottom = 0 }
   })
@@ -74,3 +74,11 @@ end
 -- PlayerPowerBarAlt:SetScale(0.75)
 -- PlayerPowerBarAlt:SetMovable(true)
 -- PlayerPowerBarAlt:SetUserPlaced(true)
+
+-- UNrelated things!!!
+
+for i = 1, 7 do
+    local chat = _G['ChatFrame'..i]
+    local font, path = chat:GetFont()
+    chat:SetFont(font, path, 'THINOUTLINE')
+end
